@@ -27,7 +27,10 @@ Steps
 
     Otherwise:
 
-    **Note**: jenkins-persistent-template.json template file requires persistent volume setup.  
+    **Note**: jenkins-persistent-template.json template file requires persistent volume setup. 
+    To setup sample persistent volume on new cluster use:
+    
+        $ oc create -f ./sample-pv.json
     
 1. View/Manage Jenkins
 
@@ -39,12 +42,7 @@ Steps
 
     If you do not have a router or your host system does not support xip.io name resolution, you can access jenkins directly via the service ip.  Determine the jenkins service ip ("oc get svc") and go to it in your browser on port 80.  Do not confuse it with the jenkins-jnlp service.
 
-    **Note**: The OpenShift Login plugin by default manages authentication into any Jenkins instance running in OpenShift.  When this is the case, and you do intend to access Jenkins via the Service IP and not the Route, then you will need to annotate the Jenkins service account with a redirect URL so that the OAuth server's whitelist is updated and allow the login to Jenkins to complete. 
-
-        $ oc annotate sa/jenkins serviceaccounts.openshift.io/oauth-redirecturi.1=http://<jenkins_service_ip:jenkins_service_port>/securityRealm/finishLogin --overwrite
- 
-    Login with the user name you supplied to `oc login` and any non-empty password.
-
+    Login with the `admin` user name and password ${JENKINS_PASSWORD}.
 
 Plugins
 ------

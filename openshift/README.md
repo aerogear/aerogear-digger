@@ -5,7 +5,7 @@ This sample walks through the process of starting up an OpenShift cluster and de
 Steps
 -----
 
-1. Unless you have built OpenShift locally, be sure  to grab the [latest oc command](https://github.com/openshift/origin/releases/latest)
+1. Unless you have built OpenShift locally, be sure  to grab the [oc command, v1.3+](https://github.com/openshift/origin/releases/tag/v1.3.1)
 
 1. Stand up an openshift cluster from origin master, installing the standard imagestreams to the openshift namespace:
 

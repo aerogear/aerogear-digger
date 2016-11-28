@@ -6,12 +6,12 @@
     "creationTimestamp": null,
     "annotations": {
       "openshift.io/display-name": "Jenkins (Persistent)",
-      "description": "Jenkins service, with persistent storage.\n\nNOTE: You must have persistent volumes available in your cluster to use this template.",
+      "description": "Jenkins service, with persistent storage.\nYou must have persistent volumes available in your cluster to use this template.",
       "iconClass": "icon-jenkins",
       "tags": "instant-app,jenkins"
     }
   },
-  "message": "A Jenkins service has been created in your project.  Log into Jenkins with your OpenShift account.  The tutorial at https://github.com/openshift/origin/blob/master/examples/jenkins/README.md contains more information about using this template.",
+  "message": "A Jenkins service has been created in your project.  The username/password are admin/${JENKINS_PASSWORD}.",
   "objects": [
     {
       "kind": "Route",
@@ -47,7 +47,7 @@
           }
         }
       }
-    },
+    },    
     {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
@@ -107,7 +107,6 @@
                 "livenessProbe": {
                     "timeoutSeconds": 3,
                     "initialDelaySeconds": 120,
-                    "failureThreshold" : 30,
                     "httpGet": {
                         "path": "/login",
                         "port": 8080
@@ -116,11 +115,11 @@
                 "env": [
                   {
                     "name": "OPENSHIFT_ENABLE_OAUTH",
-                    "value": "${ENABLE_OAUTH}"
+                    "value": "false"
                   },
                   {
-                    "name": "OPENSHIFT_ENABLE_REDIRECT_PROMPT",
-                    "value": "true"
+                    "name": "JENKINS_PASSWORD",
+                    "value": "${JENKINS_PASSWORD}"
                   },
                   {
                     "name": "KUBERNETES_MASTER",
@@ -173,10 +172,7 @@
       "kind": "ServiceAccount",
         "apiVersion": "v1",
         "metadata": {
-            "name": "${JENKINS_SERVICE_NAME}",
-            "annotations": {
-		"serviceaccounts.openshift.io/oauth-redirectreference.jenkins": "{\"kind\":\"OAuthRedirectReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"Route\",\"name\":\"${JENKINS_SERVICE_NAME}\"}}"
-            }
+            "name": "${JENKINS_SERVICE_NAME}"
         }
     },
     {
@@ -262,10 +258,12 @@
       "value": "jenkins-jnlp"
     },
     {
-      "name": "ENABLE_OAUTH",
-      "displayName": "Enable OAuth in Jenkins",
-      "description": "Whether to enable OAuth OpenShift integration. If false, the static account 'admin' will be initialized with the password 'password'.",
-      "value": "true"
+      "name": "JENKINS_PASSWORD",
+      "displayName": "Jenkins Password",
+      "description": "Password for the Jenkins 'admin' user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
     },
     {
       "name": "MEMORY_LIMIT",

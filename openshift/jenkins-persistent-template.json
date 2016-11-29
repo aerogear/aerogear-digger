@@ -28,7 +28,7 @@
         "tls": {
           "termination": "edge",
           "insecureEdgeTerminationPolicy": "Redirect"
-        }
+          }
       }
     },
     {
@@ -61,21 +61,6 @@
         },
         "triggers": [
           {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "jenkins"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "${JENKINS_IMAGE_STREAM_TAG}",
-                "namespace": "${NAMESPACE}"
-              },
-              "lastTriggeredImage": ""
-            }
-          },
-          {
             "type": "ConfigChange"
           }
         ],
@@ -95,7 +80,7 @@
             "containers": [
               {
                 "name": "jenkins",
-                "image": " ",
+                "image": "${JENKINS_IMAGE}:${JENKINS_IMAGE_VERSION}",
                 "readinessProbe": {
                   "timeoutSeconds": 3,
                   "initialDelaySeconds": 3,
@@ -113,10 +98,6 @@
                     }
                 },
                 "env": [
-                  {
-                    "name": "OPENSHIFT_ENABLE_OAUTH",
-                    "value": "false"
-                  },
                   {
                     "name": "JENKINS_PASSWORD",
                     "value": "${JENKINS_PASSWORD}"
@@ -211,6 +192,7 @@
         "selector": {
           "name": "${JENKINS_SERVICE_NAME}"
         },
+        "portalIP": "",
         "type": "ClusterIP",
         "sessionAffinity": "None"
       }
@@ -239,6 +221,7 @@
          "selector": {
            "name": "${JENKINS_SERVICE_NAME}"
          },
+         "portalIP": "",
          "type": "ClusterIP",
          "sessionAffinity": "None"
        }
@@ -269,26 +252,26 @@
       "name": "MEMORY_LIMIT",
       "displayName": "Memory Limit",
       "description": "Maximum amount of memory the container can use.",
-      "value": "512Mi"
+      "value": "1Gi"
     },
     {
       "name": "VOLUME_CAPACITY",
       "displayName": "Volume Capacity",
       "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
-      "value": "1Gi",
+      "value": "40Gi",
       "required": true
     },
     {
-      "name": "NAMESPACE",
-      "displayName": "Jenkins ImageStream Namespace",
-      "description": "The OpenShift Namespace where the Jenkins ImageStream resides.",
-      "value": "openshift"
+      "name": "JENKINS_IMAGE",
+      "displayName": "Jenkins docker image reference",
+      "description": "Full name of jenkins image for example ",
+      "value": "aerogear/jenkins-1-centos7"
     },
     {
-      "name": "JENKINS_IMAGE_STREAM_TAG",
-      "displayName": "Jenkins ImageStreamTag",
-      "description": "Name of the ImageStreamTag to be used for the Jenkins image.",
-      "value": "jenkins:latest"
+      "name": "JENKINS_IMAGE_VERSION",
+      "displayName": "Jenkins image version",
+      "description": "Jenkins image version",
+      "value": "latest"
     }
   ],
   "labels": {

@@ -24,11 +24,11 @@ JNLP_PORT=${!T_PORT}
 
 export JNLP_PORT=${JNLP_PORT:-50000}
 
-ANDROID_SLAVE=registry.access.redhat.com/openshift3/jenkins-slave-nodejs-rhel7
-MAVEN_SLAVE=registry.access.redhat.com/openshift3/jenkins-slave-maven-rhel7
+ANDROID_SLAVE=docker.io/aerogear/jenkins-android-slave
+MAVEN_SLAVE=registry.access.redhat.com/aerogear/jenkins-android-slave
 # if the master is running the centos image, use the centos slave images.
 if [[ `grep CentOS /etc/redhat-release` ]]; then
-  ANDROID_SLAVE=openshift/jenkins-slave-nodejs-centos7
+  ANDROID_SLAVE=docker.io/aerogear/jenkins-android-slave
   MAVEN_SLAVE=openshift/jenkins-slave-maven-centos7
 fi
 

@@ -40,4 +40,9 @@ For internal jenkins configuration we would need to extract it and update it man
 
 Copy configuration into the repository and build new image.
 
+## Jenkins Slaves docker files
+
+Jenkins kubernetes plugin slaves:
+
+-  [android-slave](./android-slave)
 

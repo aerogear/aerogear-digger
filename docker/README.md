@@ -2,8 +2,8 @@
 
 ## Why another image?
 
-OpenShift Jenkins docker images use `source to image` aproach for customizing jenkins plugins and configuration. 
-We need to use it in order to make any change in jenkins configuration that would be persisted in image.
+OpenShift Jenkins docker images use `source to image` aproach for customizing jenkins plugins and configuration.
+We make use of the 'source to image' so that any changes made to the jenkins configuration and plugins would be persisted
 
 For base image source code and documentation please refer to https://github.com/openshift/jenkins
 

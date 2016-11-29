@@ -19,18 +19,23 @@ Steps
 
         $ oc new-project test
 
+1. Create persistent volume 
+
+**Note**: jenkins-persistent-template.json template file requires openshift persistent volume.
+Persistent volume setup is not part of the template and require separate steps. 
+If you already have persistent volumes feel free to skip this step.
+To setup simple persistent volume on new cluster execute:
+        
+        $ mkdir /tmp/jenkins
+        $ chmod 777 /tmp/jenkins
+        $ oc login -u system:admin
+        $ oc create -f ./sample-pv.json
+
 1. Run this command to instantiate a Jenkins server and service account in your project:
 
     If your have persistent volumes available in your cluster:
 
         $ oc new-app jenkins-persistent
-
-    Otherwise:
-
-    **Note**: jenkins-persistent-template.json template file requires persistent volume setup. 
-    To setup sample persistent volume on new cluster use:
-    
-        $ oc create -f ./sample-pv.json
     
 1. View/Manage Jenkins
 

@@ -2,13 +2,7 @@
 
 This directory contains the Docker source for Jenkins master and slaves for AeroGear Digger.
 
-## Stucture
 
-- android-slave
-Android slave docker image used to build mobile apps.
-
-- jenkins1-centos
-Jenkins docker image
 
 ## Why another image?
 
@@ -71,4 +65,10 @@ Jenkins Kubernetes plugin slaves:
 
 -  [android-slave](./android-slave)
 
+
+## Build
+
+To build slave execute docker build
+
+    docker build . -t aerogear/jenkins-android-slave
 

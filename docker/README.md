@@ -9,13 +9,19 @@ For base image source code and documentation please refer to https://github.com/
 
 ## Building
 
-To build install s2i build tool from: https://github.com/openshift/source-to-image/releases/tag/v1.1.3 
+S2I build is required in order to install new plugins and configuration 
+Install s2i build tool from: https://github.com/openshift/source-to-image/releases/tag/v1.1.3 
+Execute build command:
 
     s2i build . openshift/jenkins-1-centos7 aerogear/jenkins-1-centos7
 
+For release builds publish image to dockerhub
+
+    docker push aerogear/jenkins-1-centos7
+
 ## Versions
 
-To use different os or jenkins version please use different base image.
+To use different os or jenkins version please use different base image when executing s2i build.
 Available images here: https://github.com/openshift/jenkins
 
 ## Development

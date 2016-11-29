@@ -28,6 +28,7 @@ To setup simple persistent volume on new cluster execute:
         
         $ mkdir /tmp/jenkins
         $ chmod 777 /tmp/jenkins
+        $ oc login -u system:admin
         $ oc create -f ./sample-pv.json
 
 1. Run this command to instantiate a Jenkins server and service account in your project:

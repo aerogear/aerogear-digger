@@ -1,5 +1,13 @@
 # Aerogear Jenkins openshift docker image
 
+## Stucture
+
+- android-slave
+Android slave docker image used to build mobile apps.
+
+- jenkins1-centos
+Jenkins docker image.
+
 ## Why another image?
 
 OpenShift Jenkins docker images use `source to image` aproach for customizing jenkins plugins and configuration.
@@ -11,9 +19,14 @@ For base image source code and documentation please refer to https://github.com/
 
 S2I build is required in order to install new plugins and configuration 
 Install s2i build tool from: https://github.com/openshift/source-to-image/releases/tag/v1.1.3 
-Execute build command:
+Build openshift jenkins image with our modifications on your local machine
 
-    s2i build . openshift/jenkins-1-centos7 aerogear/jenkins-1-centos7
+    cd jenkins1-centos
+    docker build . -t aerogear/jenkins-1-centos7-s2i
+
+Execute s2i build command:
+
+    s2i build . aerogear/jenkins-1-centos7-s2i aerogear/jenkins-1-centos7
 
 For release builds publish image to dockerhub
 

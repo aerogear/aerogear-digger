@@ -265,7 +265,7 @@
       "name": "JENKINS_IMAGE",
       "displayName": "Jenkins docker image reference",
       "description": "Full name of jenkins image for example ",
-      "value": "wtrocki/jenkins"
+      "value": "aerogear/jenkins-1-centos7"
     },
     {
       "name": "JENKINS_IMAGE_VERSION",

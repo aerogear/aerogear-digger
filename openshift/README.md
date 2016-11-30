@@ -11,6 +11,21 @@ Steps
 
         oc cluster up
 
+1. Setup simple persistent volume on new cluster execute:
+
+**Note**: jenkins-persistent-template.json template file requires an OpenShift persistent volume.
+Persistent volume setup is not part of the template and require separate steps.
+If you already have persistent volumes feel free to skip this step.
+
+        mkdir /tmp/jenkins
+        chmod 777 /tmp/jenkins
+        # creating a cluster wide persistent volume like the one we use requires
+        # an admin user on OpenShift.
+        oc login -u system:admin
+        oc create -f ./sample-pv.json
+
+Note that `mkdir` and `chmod` commands above should be executed in the Docker-machine, in case of using Docker-machine (boot2docker) on Mac.
+
 1. Login as a normal user (any non-empty user name and password is fine)
 
         oc login
@@ -19,31 +34,11 @@ Steps
 
         oc new-project test
 
-1. Create persistent volume 
-
-**Note**: jenkins-persistent-template.json template file requires an OpenShift persistent volume.
-Persistent volume setup is not part of the template and require separate steps. 
-If you already have persistent volumes feel free to skip this step.
-
-To setup simple persistent volume on new cluster execute:
-        
-        mkdir /tmp/jenkins
-        chmod 777 /tmp/jenkins
-        # creating a cluster wide persistent volume like the one we use requires
-        # an admin user on OpenShift.
-        oc login -u system:admin
-        oc create -f ./sample-pv.json
-        oc login
-        # switch back to your user now
-
-Note that `mkdir` and `chmod` commands above should be executed in the Docker-machine, in case of using Docker-machine (boot2docker) on Mac.
-
-
 1. Run this command to instantiate a Jenkins server and service account in your project:
 
     If your have persistent volumes available in your cluster:
 
-        oc new-app jenkins-persistent
+        oc new-app -f ./jenkins-persistent-template.json
     
 1. View/Manage Jenkins
 

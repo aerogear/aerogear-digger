@@ -65,7 +65,6 @@ Jenkins Kubernetes plugin slaves:
 
 -  [android-slave](./android-slave)
 
-
 ## Build
 
 To build slave execute docker build

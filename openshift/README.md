@@ -35,7 +35,7 @@ To setup simple persistent volume on new cluster execute:
 
     If your have persistent volumes available in your cluster:
 
-        $ oc new-app jenkins-persistent
+        $ oc new-app -f ./jenkins-persistent-template.json
     
 1. View/Manage Jenkins
 

@@ -14,6 +14,6 @@ When moving to repositories they should be renamed to `jenkinsfile`.
 
 ## Development
 
-Pipeline files can be modified for your own needs as long they would launch on the Kubernetes node (Docker slave).
+Pipeline files can be modified for your own needs as long as commands/plugins would launch on the Kubernetes node (Docker slave).
 
 Please follow general Jenkins pipelines documentation here: <https://jenkins.io/doc/book/pipeline/jenkinsfile/>

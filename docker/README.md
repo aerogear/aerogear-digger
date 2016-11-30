@@ -4,19 +4,9 @@ This directory contains the Docker source for Jenkins master and slaves for Aero
 
 Please note that the images published to Docker Hub: <https://hub.docker.com/r/aerogear/>
 
-From a user's point of view, you don't need to do anything here in order to build apps using AeroGear Digger.
-
-Unless you need to change the Jenkins Docker images, you don't need to do any of the things required here.
-
-
 ## AeroGear Digger Jenkins Master OpenShift Docker image
 
 This is the source for image in Docker Hub: <https://hub.docker.com/r/aerogear/jenkins-1-centos7/>
-
-Unless you need to change the Jenkins Docker image, you don't need to do any of the things required here.
-
-From a user's point of view, you don't need to do anything here in order to build apps using AeroGear Digger.
-
 
 ### Why another image?
 
@@ -68,7 +58,7 @@ then extract the configuration and update it manually.
     cat /var/lib/jenkins/configuration.xml
 ```
 
-Then, copy configuration into the repository and build new image.
+Then, copy configuration into the repository ([`configuration.xml.tpl`](./configuration/configuration.xml.tpl)) and build new image.
 
 ## Jenkins Slaves `Dockerfile`s
 

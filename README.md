@@ -1,26 +1,28 @@
 # digger-jenkins
-Digger on Jenkins: An OpenSource Build Farm for mobile app builds in the cloud 
+Digger on Jenkins: An OpenSource Build Farm for mobile app builds in the cloud
+
 Give us mobile app source code and we would build it for you!
 
 ## Purpose of the project
 
 Provide complete mobile build solution on top of Jenkins and OpenShift platforms.
 
+
 ## Repo structure
 
 Please check individual folders for more information
 
-### Docker
-Contains custom jenkins dockerfiles 
+### `/docker` folder
+Contains custom Jenkins Dockerfiles.
 
-[docker](../master/docker)
+[See the readme](../master/docker)
  
-### OpenShift
+### `/openshift`
 Contains OpenShift Container Platform templates
 
-[docker](../master/openshift)
+[See the readme](../master/openshift)
 
-### Jenkinsfiles
-Contants jenkins job definitions for each platform
+### `/jenkinsfiles`
+Contains Jenkins job definitions for each platform
 
-[docker](../master/jenkinsfiles)
+[See the readme](../master/jenkinsfiles)

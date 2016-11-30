@@ -2,6 +2,12 @@
 * Android Jenkinsfile
 */
 node('android') {
-    stage 'build'   
-    echo 'TODO Android'   
+    stage 'Checkout'
+    checkout scm
+
+    stage 'Build'
+    sh "./gradlew clean assembleDebug"
+
+    stage 'Archive'
+    archive 'app/build/outputs/apk/*.apk'
 }

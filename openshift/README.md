@@ -7,41 +7,44 @@ Steps
 
 1. Unless you have built OpenShift locally, be sure  to grab the [oc command, v1.3+](https://github.com/openshift/origin/releases/tag/v1.3.1)
 
-1. Stand up an openshift cluster from origin master, installing the standard imagestreams to the openshift namespace:
+1. Stand up an OpenShift cluster from origin master, installing the standard image streams to the OpenShift namespace:
 
-        $ oc cluster up
+        oc cluster up
+
+1. Setup simple persistent volume on new cluster execute:
+
+**Note**: jenkins-persistent-template.json template file requires an OpenShift persistent volume.
+Persistent volume setup is not part of the template and require separate steps.
+If you already have persistent volumes feel free to skip this step.
+
+        mkdir /tmp/jenkins
+        chmod 777 /tmp/jenkins
+        # creating a cluster wide persistent volume like the one we use requires
+        # an admin user on OpenShift.
+        oc login -u system:admin
+        oc create -f ./sample-pv.json
+
+Note that `mkdir` and `chmod` commands above should be executed in the Docker-machine, in case of using Docker-machine (boot2docker) on Mac.
 
 1. Login as a normal user (any non-empty user name and password is fine)
 
-        $ oc login
+        oc login
 
 1. Create a project  named "test"
 
-        $ oc new-project test
-
-1. Create persistent volume 
-
-**Note**: jenkins-persistent-template.json template file requires openshift persistent volume.
-Persistent volume setup is not part of the template and require separate steps. 
-If you already have persistent volumes feel free to skip this step.
-To setup simple persistent volume on new cluster execute:
-        
-        $ mkdir /tmp/jenkins
-        $ chmod 777 /tmp/jenkins
-        $ oc login -u system:admin
-        $ oc create -f ./sample-pv.json
+        oc new-project test
 
 1. Run this command to instantiate a Jenkins server and service account in your project:
 
     If your have persistent volumes available in your cluster:
 
-        $ oc new-app jenkins-persistent
+        oc new-app -f ./jenkins-persistent-template.json
     
 1. View/Manage Jenkins
 
     If you have a router running (`oc cluster up` provides one), run:
 
-        $ oc get route
+        oc get route
 
     and access the host for the Jenkins route.
 
@@ -52,14 +55,15 @@ To setup simple persistent volume on new cluster execute:
 Plugins
 ------
 
-You can work with jenkins sample and demonstrate the use of the [kubernetes-plugin](https://wiki.jenkins-ci.org/display/JENKINS/Kubernetes+Plugin) to manage
-Jenkins slaves that run as on-demand Pods.  The kubenetes-plugin is pre-installed into the OpenShift Jenkins Images
-for Centos and RHEL produced by the [OpenShift Jenkins repository](https://github.com/openshift/jenkins).  The OpenShift
-Jenkins repository also produces a [base Jenkins slave image](https://github.com/openshift/jenkins/tree/master/slave-base),
+You can work with Jenkins sample and demonstrate the use of the [Kubernetes plugin](https://wiki.jenkins-ci.org/display/JENKINS/Kubernetes+Plugin) to manage
+Jenkins slaves that run as on-demand Pods. Kubernetes plugin is pre-installed into the OpenShift Jenkins Images
+for CentOS and RHEL produced by the [OpenShift Jenkins repository](https://github.com/openshift/jenkins).
+
+OpenShift Jenkins repository also produces a [base Jenkins slave image](https://github.com/openshift/jenkins/tree/master/slave-base),
 as well as Jenkins slave images for [Maven](https://github.com/openshift/jenkins/tree/master/slave-maven) and
 [NodeJS](https://github.com/openshift/jenkins/tree/master/slave-nodejs) which extend that base Jenkins slave image.
 
-These next set of steps builds upon the steps just executed above, leveraging the OpenShift Jenkins slave image for NodeJS to launch the sample
+These next set of steps build upon the steps just executed above, leveraging the OpenShift Jenkins slave image for NodeJS to launch the sample
 job in a Jenkins slave provisioned as Kubernetes Pod on OpenShift.
 
 

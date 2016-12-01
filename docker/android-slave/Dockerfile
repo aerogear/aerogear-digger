@@ -38,8 +38,12 @@ RUN INSTALL_PKGS="java-1.8.0-openjdk-devel" && \
 RUN cd /opt && wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
     tar xzf android-sdk.tgz && \
     rm -f android-sdk.tgz && \
-    chmod -R 777 /opt/tools && \
-    /opt/tools/android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter tools,build-tools-23.0.0,android-23"
+    chmod -R 777 /opt/tools
+
+RUN cd /opt && \
+  /opt/tools/android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter tools,platform-tools,build-tools-24.0.2,android-24,addon-google_apis_x86-google-21,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"
+
+RUN chmod -R 777 /home/jenkins/.android
 
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux

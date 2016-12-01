@@ -66,6 +66,27 @@ as well as Jenkins slave images for [Maven](https://github.com/openshift/jenkins
 These next set of steps build upon the steps just executed above, leveraging the OpenShift Jenkins slave image for NodeJS to launch the sample
 job in a Jenkins slave provisioned as Kubernetes Pod on OpenShift.
 
+Troubleshooting
+---------------
+
+* Fedora
+
+ * SELinux
+
+On Fedora you need to ensure the Docker Daemon is running without `SELinux`. In `/etc/sysconfig/docker` the `OPTIONS` should *not* contain `--selinux-enabled` option:
+
+        OPTIONS='--log-driver=journald'
+
+ * iptables
+
+It's also recommended to run `sudo iptables -F` before getting started.
+
+ * DNS problems with `xip.io`
+
+In case your machine is not able to resolve the `xip.io` domain names of your pods, make sure you add Google's DNS server to `/etc/resolve.conf`:
+
+        nameserver 8.8.8.8
+
 
 More details
 ------------

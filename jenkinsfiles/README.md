@@ -7,7 +7,7 @@ Please refer to specific platform and architecture for more information.
 ## `jenkinsfile`s
 
 Files have groovy extension to support syntax highlighting.
-When moving to repositories they should be renamed to `jenkinsfile`.
+When moving to repositories they should be renamed to `Jenkinsfile`.
 
 - `android_jenkinsfile.groovy`
 - `cordova_jenkinsfile.groovy`

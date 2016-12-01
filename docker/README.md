@@ -2,7 +2,6 @@
 
 This directory contains the Docker source for Jenkins master and slaves for AeroGear Digger.  
 
-
 These images are to be used on OpenShift. 
 
  Please note that the images published to Docker Hub: <https://hub.docker.com/r/aerogear/>  

@@ -2,7 +2,7 @@
 
 This directory contains the Docker source for Jenkins master for AeroGear Digger.
 
-This is the source for image in Docker Hub: <https://hub.docker.com/r/aerogear/jenkins-1-centos7/>
+This image is available on Docker Hub: <https://hub.docker.com/r/aerogear/jenkins-1-centos7/>
 
 ## Why another image?
 

@@ -19,12 +19,7 @@ If you already have persistent volumes feel free to skip this step.
 
         mkdir /tmp/jenkins
         chmod 777 /tmp/jenkins
-        # creating a cluster wide persistent volume like the one we use requires
-        # an admin user on OpenShift.
-        oc login -u system:admin
-        oc create -f ./sample-pv.json
-
-Note that `mkdir` and `chmod` commands above should be executed in the Docker-machine, in case of using Docker-machine (boot2docker) on Mac.
+        oc create -f ./sample-pv.json --as=system:admin
 
 1. Login as a normal user (any non-empty user name and password is fine)
 

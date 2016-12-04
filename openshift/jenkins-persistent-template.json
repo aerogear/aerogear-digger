@@ -49,6 +49,23 @@
       }
     },
     {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "android-sdk-linux"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "25Gi"
+          }
+        }
+      }
+    },
+    {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -140,6 +157,93 @@
                 "name": "${JENKINS_SERVICE_NAME}-data",
                 "persistentVolumeClaim": {
                   "claimName": "${JENKINS_SERVICE_NAME}"
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          }
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "android-sdk-installer",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${JENKINS_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "${JENKINS_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "serviceAccountName": "${JENKINS_SERVICE_NAME}",
+            "containers": [
+              {
+                "name": "sdk-installer",
+                "image": "${ANDROID_SDK_INSTALLER_IMAGE}:${ANDROID_SDK_INSTALLER_IMAGE_VERSION}",
+                "volumeMounts": [
+                  {
+                    "name": "android-sdk-linux-data",
+                    "mountPath": "/opt/install"
+                  }
+                ],
+                "command": [
+                ],
+                "env": [
+                  {
+                    "name": "METADATA_NAMESPACE",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "fieldPath": "metadata.namespace"
+                      }
+                    }
+                  },
+                  {
+                    "name": "INSTALLER_VERSION",
+                    "value": "1.0.0"
+                  },
+                  {
+                    "name": "SLAVE_VERSION",
+                    "value": "25.2.5"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "volumes": [
+              {
+                "name": "android-sdk-linux-data",
+                "persistentVolumeClaim": {
+                  "claimName": "android-sdk-linux"
                 }
               }
             ],
@@ -271,6 +375,18 @@
       "name": "JENKINS_IMAGE_VERSION",
       "displayName": "Jenkins image version",
       "description": "Jenkins image version",
+      "value": "latest"
+    },
+    {
+      "name": "ANDROID_SDK_INSTALLER_IMAGE",
+      "displayName": "Android sdk installer",
+      "description": "Full name of the android sdk installer image",
+      "value": "aerogear/android-sdk-installer"
+    },
+    {
+      "name": "ANDROID_SDK_INSTALLER_IMAGE_VERSION",
+      "displayName": "Android sdk installer image version",
+      "description": "Android sdk installer image version",
       "value": "latest"
     }
   ],

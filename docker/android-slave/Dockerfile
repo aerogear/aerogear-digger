@@ -34,25 +34,6 @@ RUN yum install -y git wget python curl expect expectk
 COPY tools /opt/tools
 ENV PATH ${PATH}:/opt/tools
 
-# Install Android SDK
-RUN cd /opt && wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
-  tar xzf android-sdk.tgz && \
-  rm -f android-sdk.tgz
-
-RUN cd /opt && chown -R root.root android-sdk-linux && \
-  chmod -R 777 /opt/tools && \
-  /opt/tools/android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools" && \
-  /opt/tools/android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.0,android-25,addon-google_apis_x86-google-21,extra-android-support,extra-google-google_play_services,sys-img-armeabi-v7a-android-24"
-
-# Setup environment
-ENV ANDROID_HOME /opt/android-sdk-linux
-ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-
-RUN which adb
-RUN which android
-
-RUN android list targets
-
 # GO to workspace
 RUN mkdir -p /opt/workspace
 WORKDIR /opt/workspace

@@ -52,6 +52,32 @@ Note that `mkdir` and `chmod` commands above should be executed in the Docker-ma
 
     Login with the `admin` user name and password ${JENKINS_PASSWORD}.
 
+
+Jenkins Configuration
+---------------------
+
+The android-sdk is not 'included in any docker container' and therefore a simple 'freestyle job needs to be created' that will contain the scripts to download and install the android sdk
+
+1. Once logged into jenkins navigate to -> New Item
+
+        Click on the 'Freestyle project and enter 'install-android-sdk' as a jon name
+
+1. Navigate to 'Add build step' and click on 'Execute shell'
+
+        Copy and paste the script found in jenkinsfiles/install-android-sdk.sh
+
+1. Save 
+
+1. Navigate to 'Manage Jenkins' -> Configure system
+
+1. Click on Global properties and add the following (the slave uses this to execute gradlew)
+
+        In the field 'Name' enter GRADLE_HOME
+        In the field 'Value' enter /var/lib/jenkins/tools/templates/gradle/wrapper
+
+1. Save and execute the script 'install-android-sdk'
+
+
 Plugins
 ------
 

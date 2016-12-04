@@ -65,7 +65,14 @@ Jenkins Kubernetes plugin slaves:
 
 ## Build
 
-To build slave execute docker build
+S2I build is required in order to include the 'acpepted license agreement' android sdk
+Manual task - use only if changes were made to nodejs or other dependencies
 
-    docker build . -t aerogear/jenkins-android-slave
+    cd android-slave-s2i directory
+    docker build -t aerogear/jenkins-android-slave-s2i
 
+To include the android-sdk, download the required sdk, install and accept the license agreement
+
+    s2i build <directory-where-sdk-has-been-installed> aerogear/jenkins-android-slave-s2i aerogear/jenkins-android-slave:<version>
+
+For release builds, publish the image to the openshift internal registry - this should never be made public

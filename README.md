@@ -3,6 +3,8 @@ Digger on Jenkins: An OpenSource Build Farm for mobile app builds in the cloud
 
 Give us mobile app source code and we would build it for you!
 
+![](http://i.imgur.com/XmDnbeo.jpg)
+
 ## Purpose of the project
 
 Provide complete mobile build solution on top of Jenkins and OpenShift platforms.

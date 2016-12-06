@@ -1,4 +1,4 @@
-## Mobile Application configurations
+# Mobile Application configurations
 
 This folder contains Jenkins pipeline definitions for mobile app builds.
 

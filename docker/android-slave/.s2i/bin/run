@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+param=""
+
+if [ "$#" -gt 2 ]
+then
+  param=$(echo $3 | grep -o '/usr/local/s2i/assemble' )
+  echo "---> Executing $param"
+fi
+
+if [ "$param" != "/usr/local/s2i/assemble" ]
+then
+  # execute the original entry point
+  /usr/local/bin/run-jnlp-client $@
+else
+  echo "---> Building s2i image"
+fi
+
+exec "$@"

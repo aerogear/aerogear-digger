@@ -67,9 +67,10 @@ Jenkins Kubernetes plugin slaves:
 
 We are using s2i technology to for building mobile jenkins slaves. During the s2i build, a specific version of the Android SDK is installed and the user is asked to confirm all required licenses.
 
+The android slave extends the openshift/jenkins-slave-base-centos7
 Any change in s2i dockerfile would require image build.
 
-    cd android-slave-s2i directory
+    cd android-slave directory
     docker build -t aerogear/jenkins-android-slave-s2i
 
 To include the android-sdk, download the required sdk, install and accept the license agreement
@@ -85,4 +86,4 @@ The following script is an example of downloading the sdk installing and lastly 
 
     s2i build <directory-where-sdk-has-been-installed> aerogear/jenkins-android-slave-s2i aerogear/jenkins-android-slave:<version>
 
-For release builds, publish the image to the openshift internal registry - this should never be made public
+For release builds, publish the image to the openshift internal registry

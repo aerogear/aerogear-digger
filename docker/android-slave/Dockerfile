@@ -1,5 +1,4 @@
-
-FROM aerogear/jenkins-slave-base:1.0.0
+FROM openshift/jenkins-slave-base-centos7
 
 MAINTAINER Luigi Zuccarelli <lzuccare@redhat.com>
 
@@ -50,3 +49,6 @@ COPY ./.s2i/bin/ /usr/local/s2i
 USER 1001
 WORKDIR /opt/workspace
 CMD ["usage"]
+
+# Set the entry point
+ENTRYPOINT ["/usr/local/s2i/run"]

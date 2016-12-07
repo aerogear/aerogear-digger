@@ -14,7 +14,7 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Copy the android sdk to /opt/android-sdk-linux 
-# Also delete it from the /tmp/src directory avoiding docker bloat 
+# Also delete it from the /tmp/src directory  
 echo "---> Copying android-sdk-linux"
 cp -Rf /tmp/src/* /opt/android-sdk-linux
 rm -rf /tmp/src/*

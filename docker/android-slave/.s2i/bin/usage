@@ -8,5 +8,5 @@ Sample invocation:
 s2i build <dir-where-accepted-adroid-sdk-is-installed> android-slave-s2i aerogear/jenkins-android-slave
 
 You can then run the resulting image via:
-docker run <application image>
+docker run aerogear/jenkins-android-slave
 EOF

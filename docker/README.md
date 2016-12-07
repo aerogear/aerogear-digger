@@ -63,15 +63,25 @@ Jenkins Kubernetes plugin slaves:
 
 -  [android-slave](./android-slave)
 
-## Build
+### Build
 
-S2I build is required in order to include the 'acpepted license agreement' android sdk
-Manual task - use only if changes were made to nodejs or other dependencies
+We are using s2i technology to for building mobile jenkins slaves. During the s2i build, a specific version of the Android SDK is installed and the user is asked to confirm all required licenses.
+
+Any change in s2i dockerfile would require image build.
 
     cd android-slave-s2i directory
     docker build -t aerogear/jenkins-android-slave-s2i
 
 To include the android-sdk, download the required sdk, install and accept the license agreement
+The following script is an example of downloading the sdk installing and lastly a step to accept the license agreement
+
+    ```
+    wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
+    tar xzf android-sdk.tgz 
+    
+    android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.0,android-25,addon-google_apis_x86-google-21,extra-android-support,extra-google-google_play_services,sys-img-armeabi-v7a-android-24
+
+    ```
 
     s2i build <directory-where-sdk-has-been-installed> aerogear/jenkins-android-slave-s2i aerogear/jenkins-android-slave:<version>
 

@@ -28,7 +28,7 @@
         "tls": {
           "termination": "edge",
           "insecureEdgeTerminationPolicy": "Redirect"
-          }
+        }
       }
     },
     {
@@ -47,7 +47,7 @@
           }
         }
       }
-    },    
+    },
     {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
@@ -90,12 +90,12 @@
                   }
                 },
                 "livenessProbe": {
-                    "timeoutSeconds": 3,
-                    "initialDelaySeconds": 120,
-                    "httpGet": {
-                        "path": "/login",
-                        "port": 8080
-                    }
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 120,
+                  "httpGet": {
+                    "path": "/login",
+                    "port": 8080
+                  }
                 },
                 "env": [
                   {
@@ -151,26 +151,26 @@
     },
     {
       "kind": "ServiceAccount",
-        "apiVersion": "v1",
-        "metadata": {
-            "name": "${JENKINS_SERVICE_NAME}"
-        }
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${JENKINS_SERVICE_NAME}"
+      }
     },
     {
       "kind": "RoleBinding",
       "apiVersion": "v1",
       "metadata": {
-          "name": "${JENKINS_SERVICE_NAME}_edit"
+        "name": "${JENKINS_SERVICE_NAME}_edit"
       },
       "groupNames": null,
       "subjects": [
-          {
-              "kind": "ServiceAccount",
-              "name": "${JENKINS_SERVICE_NAME}"
-          }
+        {
+          "kind": "ServiceAccount",
+          "name": "${JENKINS_SERVICE_NAME}"
+        }
       ],
       "roleRef": {
-          "name": "edit"
+        "name": "edit"
       }
     },
     {
@@ -198,33 +198,33 @@
       }
     },
     {
-       "kind": "Service",
-       "apiVersion": "v1",
-       "metadata": {
-         "name": "${JENKINS_SERVICE_NAME}",
-         "annotations": {
-           "service.alpha.openshift.io/dependencies": "[{\"name\": \"${JNLP_SERVICE_NAME}\", \"namespace\": \"\", \"kind\": \"Service\"}]",
-           "service.openshift.io/infrastructure": "true"
-         },
-         "creationTimestamp": null
-       },
-       "spec": {
-         "ports": [
-           {
-             "name": "web",
-             "protocol": "TCP",
-             "port": 80,
-             "targetPort": 8080,
-             "nodePort": 0
-           }
-         ],
-         "selector": {
-           "name": "${JENKINS_SERVICE_NAME}"
-         },
-         "portalIP": "",
-         "type": "ClusterIP",
-         "sessionAffinity": "None"
-       }
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${JENKINS_SERVICE_NAME}",
+        "annotations": {
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${JNLP_SERVICE_NAME}\", \"namespace\": \"\", \"kind\": \"Service\"}]",
+          "service.openshift.io/infrastructure": "true"
+        },
+        "creationTimestamp": null
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 80,
+            "targetPort": 8080,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "${JENKINS_SERVICE_NAME}"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      }
     }
   ],
   "parameters": [
@@ -265,7 +265,7 @@
       "name": "JENKINS_IMAGE",
       "displayName": "Jenkins docker image reference",
       "description": "Full name of jenkins image for example ",
-      "value": "aerogear/jenkins-1-centos7"
+      "value": "aerogear/jenkins-2-centos7"
     },
     {
       "name": "JENKINS_IMAGE_VERSION",

@@ -2,8 +2,6 @@
 
 This directory contains the Docker source for Jenkins master and slaves for AeroGear Digger.
 
-
-
 ## Why another image?
 
 OpenShift Jenkins Docker images use "source to image" approach for customizing Jenkins plugins and configuration.
@@ -13,8 +11,8 @@ For base image source code and documentation please refer to https://github.com/
 
 ## Building
 
-S2I build is required in order to install new plugins and configuration 
-Install s2i build tool from: https://github.com/openshift/source-to-image/releases/tag/v1.1.3 
+S2I build is required in order to install new plugins and configuration
+Install s2i build tool from: https://github.com/openshift/source-to-image/releases/tag/v1.1.3
 Build openshift jenkins image with our modifications on your local machine
 
     cd jenkins1-centos

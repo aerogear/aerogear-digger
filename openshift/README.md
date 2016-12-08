@@ -1,9 +1,28 @@
-OpenShift 3 Jenkins
-=========================
+# OpenShift 3 Jenkins Templates
+
+## Running Digger on existing OpenShift instance
+
+
+#### Prerequisites:
+- Dedicated openshift project (namespace) for jenkins and created build slaves
+- Persistent volume (by default 50Gi, but it can be changed for different needs)
+
+#### Steps:
+1. Point openshift client to project you want to use for jenkins
+
+        $ oc project your-project-name
+
+1. Execute template
+
+        $ oc new-app -f ./jenkins-persistent-template.json
+
+
+## Running jenkins on local machine (dev setup)
+
 This sample walks through the process of starting up an OpenShift cluster and deploying a Jenkins Pod in it.
 
-Steps
------
+#### Steps
+
 
 1. Unless you have built OpenShift locally, be sure  to grab the [oc command, v1.3+](https://github.com/openshift/origin/releases/tag/v1.3.1)
 
@@ -39,7 +58,7 @@ Note that `mkdir` and `chmod` commands above should be executed in the Docker-ma
     If your have persistent volumes available in your cluster:
 
         $ oc new-app -f ./jenkins-persistent-template.json
-    
+
 1. View/Manage Jenkins
 
     If you have a router running (`oc cluster up` provides one), run:
@@ -52,8 +71,7 @@ Note that `mkdir` and `chmod` commands above should be executed in the Docker-ma
 
     Login with the `admin` user name and password ${JENKINS_PASSWORD}.
 
-Plugins
-------
+## Plugins
 
 You can work with Jenkins sample and demonstrate the use of the [Kubernetes plugin](https://wiki.jenkins-ci.org/display/JENKINS/Kubernetes+Plugin) to manage
 Jenkins slaves that run as on-demand Pods. Kubernetes plugin is pre-installed into the OpenShift Jenkins Images
@@ -66,8 +84,7 @@ as well as Jenkins slave images for [Maven](https://github.com/openshift/jenkins
 These next set of steps build upon the steps just executed above, leveraging the OpenShift Jenkins slave image for NodeJS to launch the sample
 job in a Jenkins slave provisioned as Kubernetes Pod on OpenShift.
 
-Troubleshooting
----------------
+## Troubleshooting
 
 * Fedora
 
@@ -86,9 +103,3 @@ It's also recommended to run `sudo iptables -F` before getting started.
 In case your machine is not able to resolve the `xip.io` domain names of your pods, make sure you add Google's DNS server to `/etc/resolve.conf`:
 
         nameserver 8.8.8.8
-
-
-More details
-------------
-
-* A broader tutorial, including how to create slave images for OpenShift, is [here](https://docs.openshift.org/latest/using_images/other_images/jenkins.html#using-the-jenkins-kubernetes-plug-in-to-run-jobs).  

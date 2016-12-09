@@ -35,8 +35,8 @@ RUN chown -R 1001:0 $HOME && \
 
 
 # Setup directory for the android sdk 
-RUN mkdir -p /opt/android-sdk-linux && chmod -R 777 /opt/android-sdk-linux
-RUN mkdir -p /home/jenkins/.android && chmod -R 777 /home/jenkins/.android
+RUN mkdir -p /opt/android-sdk-linux && chown -R 1001:0 /opt/android-sdk-linux 
+RUN mkdir -p /home/jenkins/.android && chown -R 1001:0 /home/jenkins/.android
 
 # setup workspace
 RUN mkdir -p /opt/workspace

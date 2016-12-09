@@ -50,5 +50,9 @@ USER 1001
 WORKDIR /opt/workspace
 CMD ["usage"]
 
+ENV ANDROID_HOME=/opt/android-sdk-linux
+ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+
 # Set the entry point
 ENTRYPOINT ["/usr/local/s2i/run"]

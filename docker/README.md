@@ -16,15 +16,15 @@ Install s2i build tool from: https://github.com/openshift/source-to-image/releas
 Build openshift jenkins image with our modifications on your local machine
 
     cd jenkins1-centos
-    docker build . -t aerogear/jenkins-1-centos7-s2i
+    docker build . -t aerogear/jenkins-2-centos7-s2i
 
 Execute s2i build command:
 
-    s2i build . aerogear/jenkins-1-centos7-s2i aerogear/jenkins-1-centos7
+    s2i build . aerogear/jenkins-2-centos7-s2i aerogear/jenkins-2-centos7
 
 For release builds, publish image to Docker Hub:
 
-    docker push aerogear/jenkins-1-centos7
+    docker push aerogear/jenkins-2-centos7
 
 ## Versions
 

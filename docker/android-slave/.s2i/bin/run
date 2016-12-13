@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+# The s2i build requirements must have both 'assemble and run' scripts in order to execute correctly.
+# Refer to the documentation here https://docs.openshift.com/enterprise/3.2/creating_images/s2i.html 
+
+param=""
+
+# Check if the s2i build function is being called
+if [ "$#" -gt 2 ]
+then
+  param=$(echo $3 | grep -o '/usr/local/s2i/assemble' )
+  echo "---> Build params  $@"
+  echo "---> Executing $param"
+fi
+
+# If the s2i build function is not being called, call the original s2i entry point
+if [ "$param" != "/usr/local/s2i/assemble" ]
+then
+  # execute the original entry point with parameters
+  /usr/local/bin/run-jnlp-client "$@"
+else
+  echo "---> Building s2i image"
+fi
+
+exec "$@"

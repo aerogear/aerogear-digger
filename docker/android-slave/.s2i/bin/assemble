@@ -1,0 +1,20 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'android-slave-s2i' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+if [[ "$1" == "-h" ]]; then
+	# If the 'android-slave-s2i' assemble script is executed with '-h' flag,
+	# print the usage.
+	exec /usr/local/s2i/usage
+fi
+
+# Copy the android sdk to /opt/android-sdk-linux 
+# Also delete it from the /tmp/src directory  
+echo "---> Copying android-sdk-linux"
+cp -Rf /tmp/src/* /opt/android-sdk-linux
+rm -rf /tmp/src/*

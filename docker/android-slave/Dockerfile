@@ -1,6 +1,12 @@
 FROM openshift/jenkins-slave-base-centos7
 
-MAINTAINER Wojciech Trocki <wtr@redhat.com>
+MAINTAINER Luigi Zuccarelli <lzuccare@redhat.com>
+
+ENV ANDROID_SLAVE_SDK_BUILDER=1.0.0
+
+LABEL io.k8s.description="Platform for building slave android sdk image" \
+      io.k8s.display-name="jenkins android sdk slave builder" \
+      io.openshift.tags="jenkins-android-slave builder"
 
 ENV NODEJS_VERSION=4.4 \
     NPM_CONFIG_PREFIX=$HOME/.npm-global \
@@ -10,8 +16,6 @@ ENV NODEJS_VERSION=4.4 \
     PROMPT_COMMAND=". /usr/local/bin/scl_enable"
 
 COPY contrib/bin/scl_enable /usr/local/bin/scl_enable
-# Copy install tools
-COPY tools /opt/tools
 
 # Install NodeJS
 RUN yum install -y centos-release-scl-rh && \
@@ -24,30 +28,31 @@ RUN yum install -y centos-release-scl-rh && \
 RUN INSTALL_PKGS="java-1.8.0-openjdk-devel" && \
     yum install -y --enablerepo=centosplus $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y  && \
+    yum clean all -y
 
-# Setup home and workspace
-    chown -R 1001:0 $HOME && \
-    chmod -R g+rw $HOME  && \
-    mkdir -p /opt/workspace && \
+RUN chown -R 1001:0 $HOME && \
+    chmod -R g+rw $HOME
 
-# Install build dependencies
-    yum install -y git wget python curl expect expectk
 
-# Install Android SDK
-RUN cd /opt && wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
-    tar xzf android-sdk.tgz && \
-    rm -f android-sdk.tgz && \
-    chmod -R 777 /opt/tools
+# Setup directory for the android sdk 
+RUN mkdir -p /opt/android-sdk-linux && chown -R 1001:0 /opt/android-sdk-linux 
+RUN mkdir -p /home/jenkins/.android && chown -R 1001:0 /home/jenkins/.android
 
-RUN cd /opt && \
-  /opt/tools/android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter tools,platform-tools,build-tools-24.0.2,android-24,addon-google_apis_x86-google-21,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"
+# setup workspace
+RUN mkdir -p /opt/workspace
 
-RUN chmod -R 777 /home/jenkins/.android
+# setup for s2i builds
+LABEL io.openshift.s2i.scripts-url=image:///usr/local/s2i
+COPY ./.s2i/bin/ /usr/local/s2i
 
-# Setup environment
-ENV ANDROID_HOME /opt/android-sdk-linux
-ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-
-WORKDIR /opt/workspace
+# This default user is created in the openshift/base-centos7 image
 USER 1001
+WORKDIR /opt/workspace
+CMD ["usage"]
+
+ENV ANDROID_HOME=/opt/android-sdk-linux
+ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+
+# Set the entry point
+ENTRYPOINT ["/usr/local/s2i/run"]

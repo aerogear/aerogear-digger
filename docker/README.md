@@ -63,9 +63,40 @@ Jenkins Kubernetes plugin slaves:
 
 -  [android-slave](./android-slave)
 
-## Build
+### Build
 
-To build slave execute docker build
+We are using s2i technology to for building mobile jenkins slaves. During the s2i build, a specific version of the Android SDK is installed and the user is asked to confirm all required licenses.
 
-    docker build . -t aerogear/jenkins-android-slave
+The android slave extends the openshift/jenkins-slave-base-centos7
+Any change in s2i dockerfile would require an image build.
 
+    cd android-slave directory
+    docker build -t aerogear/jenkins-android-slave-s2i
+
+If no changes are needed, pull the base s2i image from docker
+
+```
+docker pull docker.io/aerogear/android-sdk-sti
+
+```
+
+To include the android-sdk, download the required sdk, install and accept the license agreement
+The following script is an example of downloading the sdk installation
+
+    ```
+    wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
+    tar xzf android-sdk.tgz 
+    
+    android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.0,android-25,addon-google_apis_x86-google-21,extra-android-support,extra-google-google_play_services
+
+    ```
+Now execute the s2i build, assuming we are using the base image (docker.io/aerogear/android-sdk-sti i.e. no changes were needed)
+This will build the final image with the android sdk version that was installed
+
+    ```
+    s2i build <directory-where-sdk-has-been-installed> docker.io/aerogear/android-sdk-sti aerogear/jenkins-android-slave:<version>
+    
+    ```
+
+For release builds, publish the image to the openshift internal registry - please refer to this link for more info
+https://docs.openshift.com/container-platform/3.3/dev_guide/managing_images.html

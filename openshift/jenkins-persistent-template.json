@@ -194,7 +194,8 @@
             }
           },
           "spec": {
-            "serviceAccountName": "${JENKINS_SERVICE_NAME}",
+            "serviceAccountName": "android-sdk-svcacc",
+            "serviceAccount": "android-sdk-svcacc",
             "containers": [
               {
                 "name": "sdk-installer",
@@ -203,6 +204,10 @@
                   {
                     "name": "android-sdk-linux-data",
                     "mountPath": "/opt/install"
+                  },
+                  {
+                    "mountPath": "/var/run/docker.sock",
+                    "name": "docker-mount"
                   }
                 ],
                 "command": [
@@ -245,6 +250,12 @@
                 "persistentVolumeClaim": {
                   "claimName": "android-sdk-linux"
                 }
+              },
+              {
+                "hostPath": {
+                  "path": "/var/run/docker.sock"
+                },
+                "name": "docker-mount"
               }
             ],
             "restartPolicy": "Always",

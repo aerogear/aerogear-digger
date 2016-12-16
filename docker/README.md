@@ -15,7 +15,7 @@ S2I build is required in order to install new plugins and configuration
 Install s2i build tool from: https://github.com/openshift/source-to-image/releases/tag/v1.1.3
 Build openshift jenkins image with our modifications on your local machine
 
-    cd jenkins1-centos
+    cd jenkins2-centos
     docker build . -t aerogear/jenkins-2-centos7-s2i
 
 Execute s2i build command:
@@ -85,8 +85,8 @@ The following script is an example of downloading the sdk installation
 
     ```
     wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
-    tar xzf android-sdk.tgz 
-    
+    tar xzf android-sdk.tgz
+
     android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.0,android-25,addon-google_apis_x86-google-21,extra-android-support,extra-google-google_play_services
 
     ```
@@ -95,7 +95,7 @@ This will build the final image with the android sdk version that was installed
 
     ```
     s2i build <directory-where-sdk-has-been-installed> docker.io/aerogear/android-sdk-sti aerogear/jenkins-android-slave:<version>
-    
+
     ```
 
 For release builds, publish the image to the openshift internal registry - please refer to this link for more info

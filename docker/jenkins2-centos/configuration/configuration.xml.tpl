@@ -2,8 +2,10 @@
 <hudson>
   <disabledAdministrativeMonitors/>
   <version>1.651</version>
-  <numExecutors>5</numExecutors>
-  <mode>NORMAL</mode>
+  <!-- Disabling master node -->
+  <label>disabled-node</label>
+  <numExecutors>0</numExecutors>
+  <mode>EXCLUSIVE</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
     <permission>hudson.model.Computer.Configure:admin</permission>
@@ -50,7 +52,6 @@
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>${JNLP_PORT}</slaveAgentPort>
-  <label>master</label>
   <nodeProperties/>
   <globalNodeProperties/>
   <noUsageStatistics>true</noUsageStatistics>

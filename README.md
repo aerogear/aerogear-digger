@@ -42,3 +42,9 @@ Contains OpenShift Container Platform templates
 Contains Jenkins job definitions for each platform
 
 [See the readme](../master/jenkinsfiles)
+
+### `/admin`
+Contains Jenkins groovy scripts used to perform administration tasks on jenkins
+
+[See the readme](../master/admin)
+

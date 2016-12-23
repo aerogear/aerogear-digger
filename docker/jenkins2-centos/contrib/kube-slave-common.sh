@@ -145,7 +145,7 @@ function generate_kubernetes_config() {
       <namespace>${PROJECT_NAME}</namespace>
       <jenkinsUrl>http://${JENKINS_SERVICE_HOST}:${JENKINS_SERVICE_PORT}</jenkinsUrl>
       <jenkinsTunnel>${JNLP_HOST}:${JNLP_PORT}</jenkinsTunnel>
-      <credentialsId>1a12dfa4-7fc5-47a7-aa17-cc56572a41c7</credentialsId>
+      <credentialsId>aerogear-digger-jenkins-kubernetes-service-account-credential</credentialsId>
       <containerCap>10</containerCap>
       <retentionTimeout>5</retentionTimeout>
     </org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
@@ -160,12 +160,31 @@ function generate_kubernetes_credentials() {
         <specifications/>
       </com.cloudbees.plugins.credentials.domains.Domain>
       <java.util.concurrent.CopyOnWriteArrayList>
-        <org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential plugin=\"kubernetes@0.4.1\">
+        <org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential plugin=\"kubernetes@0.8\">
           <scope>GLOBAL</scope>
-          <id>1a12dfa4-7fc5-47a7-aa17-cc56572a41c7</id>
+          <id>aerogear-digger-jenkins-kubernetes-service-account-credential</id>
           <description></description>
         </org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential>
       </java.util.concurrent.CopyOnWriteArrayList>
     </entry>
     "
+}
+
+# generate_osx_slave_credentials generates the credentials entry for the
+# OSX slave.
+function generate_osx_slave_credentials() {
+    # TODO: encode the OSX_SLAVE_PASSWORD
+    # TODO: this is actually complicated. see following for decoding:
+    # TODO: http://xn--thibaud-dya.fr/jenkins_credentials.html
+    # TODO: we need to do it the other way around and we need to do it in bash :(
+  encodedOSXSlavePassword="abcdef ${OSX_SLAVE_PASSWORD}"
+  echo "<entry>
+      <com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>
+        <scope>GLOBAL</scope>
+        <id>aerogear-digger-jenkins-osx-slave-credentials</id>
+        <description></description>
+        <username>${OSX_SLAVE_USERNAME}</username>
+        <password>${encodedOSXSlavePassword}</password>
+      </com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>
+  </entry>"
 }

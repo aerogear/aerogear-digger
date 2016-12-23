@@ -113,6 +113,22 @@
                   {
                     "name": "JNLP_SERVICE_NAME",
                     "value": "${JNLP_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "OSX_SLAVE_HOST",
+                    "value": "${OSX_SLAVE_HOST}"
+                  },
+                  {
+                    "name": "OSX_SLAVE_PORT",
+                    "value": "${OSX_SLAVE_PORT}"
+                  },
+                  {
+                    "name": "OSX_SLAVE_USERNAME",
+                    "value": "${OSX_SLAVE_USERNAME}"
+                  },
+                  {
+                    "name": "OSX_SLAVE_PASSWORD",
+                    "value": "${OSX_SLAVE_PASSWORD}"
                   }
                 ],
                 "resources": {
@@ -272,6 +288,30 @@
       "displayName": "Jenkins image version",
       "description": "Jenkins image version",
       "value": "latest"
+    },
+    {
+      "name": "OSX_SLAVE_HOST",
+      "displayName": "Jenkins OSX slave host",
+      "description": "leave empty if you don't want an OSX slave",
+      "value": ""
+    },
+    {
+      "name": "OSX_SLAVE_PORT",
+      "displayName": "Jenkins OSX slave port",
+      "description": "ignored if OSX_SLAVE_HOST is not set",
+      "value": "22"
+    },
+    {
+      "name": "OSX_SLAVE_USERNAME",
+      "displayName": "SSH username for Jenkins OSX slave",
+      "description": "ignored if OSX_SLAVE_HOST is not set",
+      "value": ""
+    },
+    {
+      "name": "OSX_SLAVE_PASSWORD",
+      "displayName": "SSH pasword for Jenkins OSX slave",
+      "description": "ignored if OSX_SLAVE_HOST is not set",
+      "value": ""
     }
   ],
   "labels": {

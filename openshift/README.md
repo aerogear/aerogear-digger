@@ -4,17 +4,17 @@
 
 
 #### Prerequisites:
-- Dedicated openshift project (namespace) for jenkins and created build slaves
+- Dedicated OpenShift project (namespace) for jenkins and created build slaves
 - Persistent volume (by default 50Gi, but it can be changed for different needs)
 
 #### Steps:
-1. Point openshift client to project you want to use for jenkins
+1. Point OpenShift client to project you want to use for jenkins
 
-        $ oc project your-project-name
+        oc project your-project-name
 
 1. Execute template
 
-        $ oc new-app -f ./jenkins-persistent-template.json
+        oc new-app -f ./jenkins-persistent-template.json
 
 
 ## Running jenkins on local machine (dev setup)
@@ -24,7 +24,7 @@ This sample walks through the process of starting up an OpenShift cluster and de
 #### Steps
 
 
-1. Unless you have built OpenShift locally, be sure  to grab the [oc command, v1.3+](https://github.com/openshift/origin/releases/tag/v1.3.1)
+1. Unless you have built OpenShift locally, be sure to grab the [oc command, v1.3+](https://github.com/openshift/origin/releases/tag/v1.3.1)
 
 1. Stand up an OpenShift cluster from origin master, installing the standard image streams to the OpenShift namespace:
 
@@ -37,7 +37,7 @@ Persistent volume setup is not part of the template and require separate steps.
 If you already have persistent volumes feel free to skip this step.
 
         mkdir /tmp/jenkins
-        chmod 777 /tmp/jenkins
+        chmod -R 777 /tmp/jenkins
         # creating a cluster wide persistent volume like the one we use requires
         # an admin user on OpenShift.
         oc login -u system:admin
@@ -57,7 +57,7 @@ Note that `mkdir` and `chmod` commands above should be executed in the Docker-ma
 
     If your have persistent volumes available in your cluster:
 
-        $ oc new-app -f ./jenkins-persistent-template.json
+        oc new-app -f ./jenkins-persistent-template.json
 
 1. View/Manage Jenkins
 
@@ -83,6 +83,19 @@ as well as Jenkins slave images for [Maven](https://github.com/openshift/jenkins
 
 These next set of steps build upon the steps just executed above, leveraging the OpenShift Jenkins slave image for NodeJS to launch the sample
 job in a Jenkins slave provisioned as Kubernetes Pod on OpenShift.
+
+## OSX slave setup
+
+It is not possible to run OSX in a container, thus we need to connect our OpenShift cluster to an OSX system outside of OpenShift.
+
+TODO: organize following things.
+
+- `/opt/jenkins` should exist on OSX machine
+
+- OSX user and SSH setup: https://gist.github.com/aliok/8585a88782dd58f11616f5eceb19518c
+
+- ```oc new-app --param=OSX_SLAVE_HOST="1.2.3.4",OSX_SLAVE_PORT="22",OSX_SLAVE_USERNAME="jenkins",OSX_SLAVE_PASSWORD="Password1" -f "./jenkins-persistent-template.json"```
+
 
 ## Troubleshooting
 

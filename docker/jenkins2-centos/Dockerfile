@@ -2,14 +2,17 @@ FROM openshift/jenkins-2-centos7
 
 USER root
 
-RUN mkdir -p /usr/local/bin/aerogear
+# rename the run script from base image so that we can use it
+RUN mv /usr/libexec/s2i/run /usr/libexec/s2i/run-base
 
-COPY ./contrib/kube-slave-common.sh       /usr/local/bin/kube-slave-common.sh
-COPY ./contrib/install-plugins.sh         /usr/local/bin/install-plugins.sh
-COPY ./contrib/aerogear/*                 /usr/local/bin/aerogear/
+# copy our custom Jenkins scripts
+COPY ./contrib/jenkins /usr/local/bin
 
-## make the Aerogear scripts executable
-RUN chmod +x /usr/local/bin/aerogear/*
+# copy the s2i scripts. s2i expects them to be in /usr/libexec/s2i by default.
+ADD ./contrib/s2i /usr/libexec/s2i
+
+# make the copied s2i scripts executable
+RUN chmod -R +x /usr/libexec/s2i/*
 
 COPY plugins.txt /opt/openshift/configuration/plugins.txt
 
@@ -22,6 +25,4 @@ RUN mkdir $JENKINS_HOME/secrets && \
     ## Prevent admins from changing master to slave security option
     chmod 444 $JENKINS_HOME/secrets/slave-to-master-security-kill-switch
 
-
-# we use our own command to execute s2i run
-CMD ["/usr/local/bin/aerogear/jenkins-run.sh"]
+CMD ["/usr/libexec/s2i/run"]

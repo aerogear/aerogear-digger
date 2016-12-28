@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# This is the s2 run script. It does some work and then calls the base s2i run script (/usr/libexec/s2i/run-base)
+#
+
+# following will be redefined in base image's run script, but we need them sooner
+image_config_dir="/opt/openshift/configuration"
+image_config_path="${image_config_dir}/config.xml"
+
+source /usr/local/bin/kube-slave-common.sh
+source /usr/local/bin/generate-credentials.sh
+source /usr/local/bin/create-osx-node.sh
+
+source /usr/libexec/s2i/run-base

@@ -1,0 +1,27 @@
+#!/bin/bash -e
+
+if [ -z "$1" ]
+then
+  echo ' '
+  echo 'Please ensure the correct parameters are passed'
+  echo 'i.e /usr/local/bin/run "tools,platform-tools,build-tools-24.0.2,android-24,addon-google_apis_x86-google-21,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"'
+  echo ' '
+else
+  cd /opt/install
+  echo ' '
+  echo '---> Downloading android sdk'
+  wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz 
+
+  echo '---> Untarring android-sdk.tgz'
+  tar xzf android-sdk.tgz
+
+  echo '---> Executing android sdk update'
+  echo ' '
+  android-sdk-linux/tools/android update sdk --all --no-ui --filter $1
+
+  echo '---> Creating s2i android slave image '
+  s2i build /opt/install/android-sdk-linux  docker.io/aerogear/android-sdk-sti aerogear/jenkins-android-slave:$SLAVE_VERSION
+  exit 0 
+fi 
+
+/usr/bin/sleep infinity

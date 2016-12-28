@@ -1,0 +1,10 @@
+#!/bin/bash -e
+cat <<EOF
+This is the android-sdk-installer image:
+
+Sample invocation:
+/usr/local/bin/run "tools,platform-tools,build-tools-24.0.2,android-24,addon-google_apis_x86-google-21,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"
+
+You can then run the resulting image via:
+docker run aerogear/android-sdk-intsaller
+EOF

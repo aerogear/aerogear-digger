@@ -1,0 +1,19 @@
+{
+      "kind": "PersistentVolume",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "android-sdk-pv"
+      },
+      "spec": {
+        "capacity": {
+          "storage": "25Gi"
+        },
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "persistentVolumeReclaimPolicy": "Recycle",
+        "hostPath": {
+          "path": "/tmp/android-sdk-linux"
+        }
+      }
+}

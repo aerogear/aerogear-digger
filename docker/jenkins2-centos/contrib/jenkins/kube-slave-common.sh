@@ -1,5 +1,8 @@
 #!/bin/sh
-
+# I M P O R T A N T:
+# NOTE: This file was copied here as temporary hack to seed right pod template. In future is going to be removed.
+# see https://issues.jboss.org/browse/AGDIGGER-41
+#
 # AEROGEAR team update:
 # - this file is copied from OpenShift Jenkins image (https://github.com/openshift/jenkins/blob/005456fbcb972a022ac39e3aca8d79ed04253d6e/2/contrib/jenkins/kube-slave-common.sh)
 # - modified slightly for our use case
@@ -168,23 +171,5 @@ function generate_kubernetes_credentials() {
           <id>aerogear-digger-jenkins-kubernetes-service-account-credential</id>
           <description></description>
         </org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential>
-       "
-}
-
-# generate_osx_slave_credentials generates the credentials entry for the
-# OSX slave.
-function generate_osx_slave_credentials() {
-    # we don't need to encode the password in Jenkins format.
-    # it should work like that!
-    # see https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/jenkinsci-users/7__3FLgqPL0/asaepbVdAQAJ
-    # encoding is actually complicated. see following for decoding: http://xn--thibaud-dya.fr/jenkins_credentials.html
-    # we would need to do it the other way around and we need to do it in bash.
-  echo "<com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>
-          <scope>GLOBAL</scope>
-          <id>aerogear-digger-jenkins-osx-slave-credentials</id>
-          <description></description>
-          <username>${OSX_SLAVE_USERNAME}</username>
-          <password>${OSX_SLAVE_PASSWORD}</password>
-        </com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>
        "
 }

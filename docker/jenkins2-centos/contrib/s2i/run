@@ -8,6 +8,8 @@ image_config_dir="/opt/openshift/configuration"
 image_config_path="${image_config_dir}/config.xml"
 
 source /usr/local/bin/kube-slave-common.sh
+source /usr/local/bin/osx-slave-common.sh
+
 source /usr/local/bin/generate-credentials.sh
 source /usr/local/bin/create-osx-node.sh
 

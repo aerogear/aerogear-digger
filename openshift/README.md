@@ -94,43 +94,21 @@ In order to do that, you must first configure the OSX system. This will be repla
 
 All of the following operations on OSX machine requires `sudo`.
 
-First, create a Jenkins user on your OSX machine with username `jenkins` and password `Password1`:
+First, create a Jenkins user on your OSX machine.
+An example script that creates a user with username `jenkins` is located at `admin/create-osx-user.sh`.
+Please do not execute the script blindly. Change the password and make sure the UID is free.
 
-        . /etc/rc.common
-        dscl . create /Users/jenkins
-        dscl . create /Users/jenkins RealName "Jenkins Agent"
-        dscl . passwd /Users/jenkins Password1
-        # the first user's id is 500, second is 501...
-        # picking a big number to be on the safe side
-        # You can run this one to list UIDs
-        #   dscl . -list /Users UniqueID
-        dscl . create /Users/jenkins UniqueID 550
-        # GID 20 is `staff`
-        dscl . create /Users/jenkins PrimaryGroupID 20
-        dscl . create /Users/jenkins UserShell /bin/bash
-        dscl . create /Users/jenkins NFSHomeDirectory /Users/jenkins
-        cp -R /System/Library/User\ Template/English.lproj /Users/jenkins
-        chown -R jenkins:staff /Users/jenkins
-
-Then, enable remote login (ssh) for the machine and for this user:
-
-        systemsetup -setremotelogin on
-        # in order to check what groups are are there:
-        #   dscl . list /Groups PrimaryGroupID
-        # create a group for limiting SSH access
-        dseditgroup -o create -q com.apple.access_ssh
-        # add user into this group
-        dseditgroup -o edit -a jenkins -t user com.apple.access_ssh
-        # now, following should work
-        #   ssh jenkins@localhost
+Then, enable remote login (ssh) for the machine and for this user.
+An example script is located at `admin/enable-osx-remote-login.sh`.
+Again, please run it carefully.
 
 Create a working folder for the agent:
 
         mkdir -p /opt/jenkins
-        chown -R jenkins /opt/jenkins
+        chown -R $USERNAME /opt/jenkins
 
 
-Note that you need to pass `jenkins` as `${OSX_SLAVE_USERNAME}` and `Password1` as `${OSX_SLAVE_PASSWORD}` while creating the OpenShift application
+Note that you need to pass the username specified above as `${OSX_SLAVE_USERNAME}` and password as `${OSX_SLAVE_PASSWORD}` while creating the OpenShift application
 from template (`jenkins-persistent-template.json`).
 
 

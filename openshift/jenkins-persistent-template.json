@@ -297,7 +297,7 @@
     },
     {
       "name": "OSX_SLAVE_PORT",
-      "displayName": "Jenkins OSX slave port",
+      "displayName": "Jenkins OSX slave SSH port",
       "description": "ignored if OSX_SLAVE_HOST is not set",
       "value": "22"
     },

@@ -1,6 +1,6 @@
 FROM openshift/jenkins-slave-base-centos7
 
-MAINTAINER Luigi Zuccarelli <lzuccare@redhat.com>
+MAINTAINER AeroGear Team <https://aerogear.org/>
 
 ENV ANDROID_SLAVE_SDK_BUILDER=1.0.0
 

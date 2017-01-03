@@ -287,7 +287,7 @@
       "name": "JENKINS_IMAGE_VERSION",
       "displayName": "Jenkins image version",
       "description": "Jenkins image version",
-      "value": "latest"
+      "value": "0.1.0"
     },
     {
       "name": "OSX_SLAVE_HOST",

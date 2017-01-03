@@ -1,4 +1,15 @@
 #!/bin/sh
+# I M P O R T A N T:
+# NOTE: This file was copied here as temporary hack to seed right pod template. In future is going to be removed.
+# see https://issues.jboss.org/browse/AGDIGGER-41
+#
+# AEROGEAR team update:
+# - this file is copied from OpenShift Jenkins image (https://github.com/openshift/jenkins/blob/005456fbcb972a022ac39e3aca8d79ed04253d6e/2/contrib/jenkins/kube-slave-common.sh)
+# - modified slightly for our use case
+# - script is executed by the base s2i run script : https://github.com/openshift/jenkins/blob/005456fbcb972a022ac39e3aca8d79ed04253d6e/2/contrib/s2i/run
+#
+#
+#
 #
 # This file provides functions to automatically discover suitable image streams
 # that the Kubernetes plugin will use to create "slave" pods.
@@ -145,7 +156,7 @@ function generate_kubernetes_config() {
       <namespace>${PROJECT_NAME}</namespace>
       <jenkinsUrl>http://${JENKINS_SERVICE_HOST}:${JENKINS_SERVICE_PORT}</jenkinsUrl>
       <jenkinsTunnel>${JNLP_HOST}:${JNLP_PORT}</jenkinsTunnel>
-      <credentialsId>1a12dfa4-7fc5-47a7-aa17-cc56572a41c7</credentialsId>
+      <credentialsId>aerogear-digger-jenkins-kubernetes-service-account-credential</credentialsId>
       <containerCap>10</containerCap>
       <retentionTimeout>5</retentionTimeout>
     </org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
@@ -155,17 +166,10 @@ function generate_kubernetes_config() {
 # generate_kubernetes_credentials generates the credentials entry for the
 # kubernetes service account.
 function generate_kubernetes_credentials() {
-  echo "<entry>
-      <com.cloudbees.plugins.credentials.domains.Domain>
-        <specifications/>
-      </com.cloudbees.plugins.credentials.domains.Domain>
-      <java.util.concurrent.CopyOnWriteArrayList>
-        <org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential plugin=\"kubernetes@0.4.1\">
+  echo "<org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential plugin=\"kubernetes@0.8\">
           <scope>GLOBAL</scope>
-          <id>1a12dfa4-7fc5-47a7-aa17-cc56572a41c7</id>
+          <id>aerogear-digger-jenkins-kubernetes-service-account-credential</id>
           <description></description>
         </org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential>
-      </java.util.concurrent.CopyOnWriteArrayList>
-    </entry>
-    "
+       "
 }

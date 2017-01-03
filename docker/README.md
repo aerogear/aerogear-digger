@@ -51,7 +51,7 @@ then extract the configuration and update it manually.
 ```
     oc project {jenkins project}
     oc rsh {jenkins-pod}
-    cat /var/lib/jenkins/configuration.xml
+    cat /var/lib/jenkins/config.xml
 ```
 
 Then, copy configuration into the repository ([`configuration.xml.tpl`](./configuration/configuration.xml.tpl)) and build new image.

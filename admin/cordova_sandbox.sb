@@ -1,0 +1,106 @@
+(version 1) ; Fri Jan  6 12:01:53 2017
+
+; I M P O R T A N T:
+; /private/tmp/foobar below needs to be changed with the folder that holds the source code for Cordova project
+
+; (debug all)
+; (trace "trace.sb")
+
+; deny everything by default
+(deny default)
+
+; allow reading everything
+(allow file-read*)
+
+(allow sysctl-read)
+(allow network-outbound)
+(allow process-fork)
+(allow signal)
+
+(allow mach-lookup
+  (global-name "com.apple.cfprefsd.daemon")
+  (global-name "com.apple.system.opendirectoryd.membership")
+  (global-name "com.apple.system.notification_center")
+  (global-name "com.apple.system.opendirectoryd.libinfo")
+  (global-name "com.apple.CoreServices.coreservicesd")
+  (global-name "com.apple.system.logger")
+  (global-name "com.apple.cfprefsd.agent")
+  (global-name "com.apple.lsd.mapdb")
+  (global-name "com.apple.FSEvents")
+  (global-name "com.apple.DiskArbitration.diskarbitrationd")
+  (global-name "com.apple.diskmanagementd")
+  (global-name "com.apple.distributed_notifications@Uv3")
+  (global-name "com.apple.coreservices.quarantine-resolver")
+  (global-name "com.apple.FileCoordination")
+  (global-name "com.apple.SecurityServer")
+  (global-name "com.apple.backupd.sandbox.xpc")
+)
+
+; (allow file-write* (path "/private/var/folders/mg/fxfympln25j3qj4ysg8th3200000gn/T/ibn1YDAQAAAACnhgEA9QEAAPUBAAA-IBTOOLD-IN.Lx9ZIV6cRu"))
+(allow file-write* (subpath "/private/var/folders/mg"))
+
+; this is to be modified
+; (allow file-write* (path "/private/tmp/foobar/platforms/ios/build/emulator/HelloCordova.app/LaunchImage-700-Landscape@2x~ipad.png"))
+(allow file-write* (subpath "/private/tmp/foobar"))
+
+(allow file-read* file-write*
+  (literal "/dev/null")
+  (literal "/dev/dtracehelper")
+  (literal "/dev/ttys002")
+  (literal "/dev/tty")
+
+  (regex #"^/Users/[^/]+/.config/configstore/insight-cordova.json$")
+  (regex #"^/Users/[^/]+/.config/configstore/insight-cordova.json.*")
+  (regex #"^/Users/[^/]+/.config/configstore/update-notifier-cordova.json$")
+  (regex #"^/Users/[^/]+/.config/configstore/update-notifier-cordova.json.*")
+
+  ;for something like (path "/Users/ali/Library/Developer/Xcode/DerivedData/HelloCordova-fpardecftspvehayyecwuimvyfbq/Logs/Build/D79BE9F7-365E-435E-B5AD-110E85D89C85.xcactivitylog")
+  (regex #"^/Users/[^/]+/Library/Developer/Xcode/DerivedData/.*")
+)
+
+(allow process-exec
+  (literal "/bin/sh")
+  (literal "/bin/bash")
+  (literal "/usr/bin/env")
+  (literal "/usr/bin/grep")
+  (literal "/usr/bin/rsync")
+  (literal "/usr/bin/touch")
+
+  (literal "/usr/bin/xcodebuild")
+  (literal "/usr/bin/xcode-select")
+  (literal "/usr/bin/codesign")
+  (literal "/usr/sbin/system_profiler")
+
+  (literal "/usr/local/bin/node")
+
+  (subpath "/Applications/Xcode.app/Contents/Developer")
+  (subpath "/Applications/Xcode.app/Contents/PlugIns")
+
+  ; nvm things
+  (regex #"^/Users/[^/]+/.nvm/versions/node/[^/]+/bin/node$")
+  (regex #"^/Users/[^/]+/.nvm/versions/node/[^/]+/bin/cordova")
+  (regex #"^/Users/[^/]+/.nvm/versions/node/[^/]+/lib/node_modules/cordova/bin/cordova")
+
+  ; binaries installed over homebrew
+  (regex #"^/usr/local/Cellar/gawk/[^/]+/bin/gawk$")
+  (regex #"^/usr/local/Cellar/gnu-sed/[^/]+/bin/gsed$")
+  (regex #"^/usr/local/Cellar/coreutils/[^/]+/bin/gtail$")
+  (regex #"^/usr/local/Cellar/findutils/[^/]+/bin/gfind$")
+  (regex #"^/usr/local/Cellar/coreutils/[^/]+/bin/grm$")
+
+  ; for something like (path "/Users/ali/Library/Developer/Xcode/DerivedData/HelloCordova-fpardecftspvehayyecwuimvyfbq/Build/Intermediates/HelloCordova.build/Debug-iphonesimulator/HelloCordova.build/Script-304B58A110DAC018002A0835.sh")
+  (regex #"^/Users/[^/]+/Library/Developer/Xcode/DerivedData/.*")
+)
+
+(allow process-exec-interpreter
+  (literal "/usr/bin/env")
+)
+
+; NOTE: These things are seen in trace.sb when trace is enabled, but
+; things work without them too!
+; (allow ipc-posix-shm-read-data)
+; (allow ipc-posix-shm-write-data)
+; (allow ipc-posix-shm-write-create)
+; (allow file-ioctl (path "/dev/dtracehelper"))
+; (allow iokit-open (iokit-user-client-class "IOUSBDeviceUserClientV2"))
+; (allow system-fsctl (fsctl-command #x682f))

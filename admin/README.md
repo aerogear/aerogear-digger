@@ -11,3 +11,7 @@
 [Create Jenkins API user](./newApiUser.groovy)
 
 Create new Jenkins API user with limited permissions.
+
+## Sandbox files
+
+- cordova_sandbox.sb: OSX `sandbox-exec` file for Cordova.

@@ -1,0 +1,86 @@
+(version 1) ; Fri Jan  6 12:01:53 2017
+
+; I M P O R T A N T:
+; /private/tmp/helloworld-ios below needs to be changed with the folder that holds the source code for Cocoa pods project
+
+; (debug all)
+; (trace "trace.sb")
+
+; deny everything by default
+(deny default)
+
+; allow reading everything
+(allow file-read*)
+
+(allow sysctl-read)
+(allow network-outbound)
+(allow process-fork)
+(allow signal)
+
+(allow mach-lookup
+  (global-name "com.apple.cfprefsd.daemon")
+  (global-name "com.apple.system.opendirectoryd.membership")
+  (global-name "com.apple.system.notification_center")
+  (global-name "com.apple.system.opendirectoryd.libinfo")
+  (global-name "com.apple.CoreServices.coreservicesd")
+  (global-name "com.apple.system.logger")
+  (global-name "com.apple.cfprefsd.agent")
+  (global-name "com.apple.lsd.mapdb")
+  (global-name "com.apple.FSEvents")
+  (global-name "com.apple.DiskArbitration.diskarbitrationd")
+  (global-name "com.apple.diskmanagementd")
+  (global-name "com.apple.distributed_notifications@Uv3")
+  (global-name "com.apple.coreservices.quarantine-resolver")
+  (global-name "com.apple.FileCoordination")
+  (global-name "com.apple.SecurityServer")
+  (global-name "com.apple.backupd.sandbox.xpc")
+)
+
+(allow file-write* (subpath "/private/var/folders/mg"))
+
+; this is to be modified
+(allow file-write* (subpath "/private/tmp/helloworld-ios"))
+
+(allow file-read* file-write*
+  (literal "/dev/null")
+  (literal "/dev/dtracehelper")
+  (literal "/dev/ttys002")
+  (literal "/dev/tty")
+  (literal "/dev/null")
+
+  (regex #"^/Users/[^/]+/Library/Caches/CocoaPods/Pods/VERSION$")
+)
+
+(allow process-exec
+  (literal "/bin/sh")
+  (literal "/bin/bash")
+  (literal "/usr/bin/env")
+  (literal "/usr/bin/xcodebuild")
+  (literal "/usr/bin/xcode-select")
+  (literal "/usr/bin/xcrun")
+
+  (subpath "/Applications/Xcode.app/Contents/Developer")
+  (subpath "/Applications/Xcode.app/Contents/PlugIns")
+
+  ; rvm things
+  (regex #"^/Users/[^/]+/.rvm/rubies/ruby-[^/]+/bin/pod$")
+  (regex #"^/Users/[^/]+/.rvm/rubies/ruby-[^/]+/bin/ruby$")
+  (regex #"^/Users/[^/]+/.rvm/gems/ruby-[^/]+/bin/ruby_executable_hooks$")
+
+  ; binaries installed over homebrew
+  (regex #"^/usr/local/Cellar/git/[^/]+/bin/git$")
+
+)
+
+(allow process-exec-interpreter
+  (literal "/usr/bin/env")
+)
+
+; NOTE: These things are seen in trace.sb when trace is enabled, but
+; things work without them too!
+; (allow ipc-posix-shm-read-data)
+; (allow ipc-posix-shm-write-data)
+; (allow ipc-posix-shm-write-create)
+; (allow file-ioctl (path "/dev/dtracehelper"))
+; (allow iokit-open (iokit-user-client-class "IOUSBDeviceUserClientV2"))
+; (allow system-fsctl (fsctl-command #x682f))

@@ -1,0 +1,19 @@
+{
+  "kind": "PersistentVolume",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "android-sdk-pv1"
+  },
+  "spec": {
+    "capacity": {
+      "storage": "10Gi"
+    },
+    "accessModes": [
+      "ReadWriteOnce"
+    ],
+    "persistentVolumeReclaimPolicy": "Recycle",
+    "hostPath": {
+      "path": "/tmp/build-farm"
+    }
+  }
+}

@@ -8,9 +8,11 @@ LABEL io.k8s.description="Platform for building slave android sdk image" \
 
 ENV NODEJS_VERSION=4.4 \
     NPM_CONFIG_PREFIX=$HOME/.npm-global \
-    PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH \
+    PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:/opt/rh/rh-nodejs4/root/usr/bin:$PATH \
+    #PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH \
     BASH_ENV=/usr/local/bin/scl_enable \
     ENV=/usr/local/bin/scl_enable \
+    LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}} \
     PROMPT_COMMAND=". /usr/local/bin/scl_enable"
 
 COPY contrib/bin/scl_enable /usr/local/bin/scl_enable
@@ -35,24 +37,20 @@ RUN yum-config-manager --disable epel >/dev/null || : && \
 RUN chown -R 1001:0 $HOME && \
     chmod -R g+rw $HOME
 
-# Setup directory for the android sdk 
-RUN mkdir -p /opt/android-sdk-linux && chown -R 1001:0 /opt/android-sdk-linux 
-RUN mkdir -p /home/jenkins/.android && chown -R 1001:0 /home/jenkins/.android
+# Install Cordova
+RUN npm install -g cordova
 
 # setup workspace
 RUN mkdir -p /opt/workspace
-
-# setup for s2i builds
-LABEL io.openshift.s2i.scripts-url=image:///usr/local/s2i
-COPY ./.s2i/bin/ /usr/local/s2i
 
 # This default user is created in the openshift/base-centos7 image
 USER 1001
 WORKDIR /opt/workspace
 CMD ["usage"]
 
-ENV ANDROID_HOME=/opt/android-sdk-linux
-ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+# TODO: Need to verify this
+#ENV ANDROID_HOME=/opt/android-sdk-linux
+#ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 # Set the entry point
 ENTRYPOINT ["/usr/local/s2i/run"]

@@ -14,5 +14,7 @@ docker run ${IMAGE_NAME} 'oc'
 # override the entrypoing to run complicated commands for testing.
 docker run --entrypoint=/bin/bash ${IMAGE_NAME} -c 'npm --version'
 docker run --entrypoint=/bin/bash ${IMAGE_NAME} -c 'node --version'
+docker run --entrypoint=/bin/bash ${IMAGE_NAME} -c 'cordova --no-telemetry-flag -v'
+
 
 echo "SUCCESS!"

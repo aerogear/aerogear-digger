@@ -45,11 +45,11 @@ RUN chown -R 1001:0 $HOME && \
 RUN npm install -g cordova
 
 # setup workspace
-RUN mkdir -p /opt/workspace
+RUN mkdir -p /opt/android-sdk-linux
 
 # This default user is created in the openshift/base-centos7 image
 USER 1001
-WORKDIR /opt/workspace
+WORKDIR /opt/android-sdk-linux
 
 # Set the entry point
 ENTRYPOINT ["/usr/local/bin/run-jnlp.sh"]

@@ -9,6 +9,8 @@ We make use of the "source to image" so that any changes made to the Jenkins con
 
 For base image source code and documentation please refer to https://github.com/openshift/jenkins
 
+The android sdk image contains a "androictl" script which installs the android sdk and its related packages - keep in mind that it does not automate the "accept license" step (you need to manually accept the android/google license/terms and conditions).
+
 ## Building
 
 S2I build is required in order to install new plugins and configuration
@@ -25,6 +27,10 @@ Execute s2i build command:
 For release builds, publish image to Docker Hub:
 
     docker push aerogear/jenkins-2-centos7
+
+The Android SDK image can be built with the usual `docker build` command:
+
+    docker build -t aerogear/android-sdk:0.1 .
 
 ## Versions
 

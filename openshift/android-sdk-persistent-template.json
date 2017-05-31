@@ -1,0 +1,203 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "android-sdk-persistent",
+    "creationTimestamp": null,
+    "annotations": {
+      "openshift.io/display-name": "Android SDK (Persistent)",
+      "description": "Android SDK container",
+      "iconClass": "icon-jenkins",
+      "tags": "android-sdk"
+    }
+  },
+  "message": "Android SDK persistent volume",
+  "objects": [
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ANDROID_SDK_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ANDROID_SDK_SERVICE_NAME}",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${ANDROID_SDK_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "${ANDROID_SDK_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "serviceAccountName": "${ANDROID_SDK_SERVICE_NAME}",
+            "containers": [
+              {
+                "name": "android-sdk",
+                "image": "${ANDROID_SDK_IMAGE}:${ANDROID_SDK_IMAGE_VERSION}",
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "exec": {
+                    "command": [
+                      "which",
+                      "androidctl"
+                    ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 120,
+                  "exec": {
+                    "command": [
+                      "which",
+                      "androidctl"
+                    ]
+                  }
+                },
+                "env": [
+                  {
+                    "name": "ANDROID_HOME",
+                    "value": "${ANDROID_SDK_HOME}"
+                  },
+                  {
+                    "name": "JAVA_HOME",
+                    "value": "${JVM_HOME}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${ANDROID_SDK_SERVICE_NAME}-data",
+                    "mountPath": "/opt/android-sdk-linux"
+                  }
+                ],
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${ANDROID_SDK_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${ANDROID_SDK_SERVICE_NAME}"
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          }
+        }
+      }
+    },
+    {
+      "kind": "ServiceAccount",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ANDROID_SDK_SERVICE_NAME}"
+      }
+    },
+    {
+      "kind": "RoleBinding",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ANDROID_SDK_SERVICE_NAME}_edit"
+      },
+      "groupNames": null,
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "${ANDROID_SDK_SERVICE_NAME}"
+        }
+      ],
+      "roleRef": {
+        "name": "edit"
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "ANDROID_SDK_SERVICE_NAME",
+      "displayName": "Android SDK",
+      "description": "The name of the android sdk container",
+      "value": "android-sdk"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the container can use.",
+      "value": "1Gi"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "value": "10Gi",
+      "required": true
+    },
+    {
+      "name": "ANDROID_SDK_IMAGE",
+      "displayName": "Android SDK docker image reference",
+      "description": "Full name of android sdk image for example ",
+      "value": "docker.io/aerogear/android-sdk"
+    },
+    {
+      "name": "ANDROID_SDK_IMAGE_VERSION",
+      "displayName": "Android SDK image version",
+      "description": "Android SDK image version",
+      "value": "0.1"
+    },
+    {
+      "name": "ANDROID_SDK_HOME",
+      "displayName": "Androidd SDK home folder",
+      "description": "Android SDK home folder",
+      "value": "/opt/android-sdk-linux"
+    },
+    {
+      "name": "JVM_HOME",
+      "displayName": "Java HOME env var",
+      "description": "Java HOME env var",
+      "value": "/etc/alternatives/java_sdk_1.8.0"
+    }
+  ],
+  "labels": {
+    "template": "android-sdk-persistent-template"
+  }
+}

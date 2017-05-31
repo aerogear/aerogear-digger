@@ -12,10 +12,11 @@ ENV NODEJS_VERSION=4.4 \
     NPM_CONFIG_PREFIX=$HOME/.npm-global \
     # As we don't execute the scl_enable command here we incldue both PATH and LD_LIBRARY_PATH envars
     # inorder to execute npm install cordova
-    PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:/opt/rh/rh-nodejs4/root/usr/bin:$PATH \
+    PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:/opt/rh/rh-nodejs4/root/usr/bin:/usr/lib/jvm/java-1.8.0-openjdk/bin:$PATH \
     BASH_ENV=/usr/local/bin/scl_enable \
     ENV=/usr/local/bin/scl_enable \
     LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}} \
+    JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk \
     PROMPT_COMMAND=". /usr/local/bin/scl_enable"
 
 COPY contrib/bin/scl_enable /usr/local/bin/scl_enable

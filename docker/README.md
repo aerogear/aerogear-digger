@@ -76,7 +76,7 @@ If changes were made then execute the following
 
 The android-sdk will be installed and mounted on a PV (persistent volume in OpenShift) refer to [android-sdk](./android-sdk) 
 
-For configuration of this image :-
+For configuration of this image (N.B. This requires the 'Jenkins Kubernetes Plugin') :-
 
 - Navigate to the Jenkins web console
 - Click on the link Manage Jenkins

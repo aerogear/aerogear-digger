@@ -11,7 +11,7 @@ docker run ${IMAGE_NAME} 'oc'
 # make sure npm and nodejs are available
 # the default entrypoint for the image assumes if you supply more than
 # one arg, you are trying to invoke the slave logic, so we have to
-# override the entrypoing to run complicated commands for testing.
+# override the entrypoint to run complicated commands for testing.
 docker run --entrypoint=/bin/bash ${IMAGE_NAME} -c 'npm --version'
 docker run --entrypoint=/bin/bash ${IMAGE_NAME} -c 'node --version'
 docker run --entrypoint=/bin/bash ${IMAGE_NAME} -c 'cordova --no-telemetry-flag -v'

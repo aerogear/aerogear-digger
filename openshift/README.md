@@ -5,24 +5,24 @@
 
 #### Prerequisites:
 - Dedicated OpenShift project (namespace) for jenkins and created build slaves
-- Persistent volume (by default 50Gi, but it can be changed for different needs)
+- Persistent volume (by default 10Gi, but it can be changed for different needs)
 - Android SDK container (check [docker folder](../docker) for building instructions)
 
 #### Android SDK Steps
 
 1. Create a volume to host the android sdk itself:
 
-        oc create - f./anroid-sdk-sample-pv.json
+        oc create -f ./android-sdk-sample-pv.json
 
 1. Depoy the android image (this assumes that the android-sdk image is built):
 
-        oc create -f ./android-sdk-persistent-template.json
+        oc process -f ./android-sdk-persistent-template.json | oc create -f -
 
 1. Once the pod is running, you need to install the sdk and its related packages in the volume:
 
         oc rsh $pod_name
 
-        adroidctl install sdk #installs sdk in /opt/android-sdk-linux
+        androidctl sdk install #installs sdk in /opt/android-sdk-linux
 
         androidctl sync /opt/tools/sample.cfg #install packages based on cfg file, customize it as you wish
 

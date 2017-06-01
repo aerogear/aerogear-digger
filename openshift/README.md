@@ -16,7 +16,7 @@
 
 1. Depoy the android image (this assumes that the android-sdk image is built):
 
-        oc process -f ./android-sdk-persistent-template.json | oc create -f -
+        oc new-app -f android-sdk-persistent-template.json
 
 1. Once the pod is running, you need to install the sdk and its related packages in the volume:
 

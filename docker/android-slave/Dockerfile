@@ -49,7 +49,7 @@ RUN mkdir -p /opt/android-sdk-linux
 
 # This default user is created in the openshift/base-centos7 image
 USER 1001
-WORKDIR /opt/android-sdk-linux
+WORKDIR /tmp
 
 # Set the entry point
 ENTRYPOINT ["/usr/local/bin/run-jnlp.sh"]

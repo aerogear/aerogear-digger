@@ -91,6 +91,10 @@
                   {
                     "name": "JAVA_HOME",
                     "value": "${JVM_HOME}"
+                  },
+                  {
+                    "name": "HTTPS_PROXY",
+                    "value": "${HTTPS_PROXY}"
                   }
                 ],
                 "resources": {
@@ -195,6 +199,12 @@
       "displayName": "Java HOME env var",
       "description": "Java HOME env var",
       "value": "/etc/alternatives/java_sdk_1.8.0"
+    },
+    {
+      "name": "HTTPS_PROXY",
+      "displayName": "Outbound proxy if required, used to download Android SDK",
+      "description": "HTTPS Proxy address, examples http://user:pass@10.10.10.10:8888, http://10.10.10.01:8888",
+      "value": ""
     }
   ],
   "labels": {

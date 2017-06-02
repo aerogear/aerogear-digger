@@ -13,6 +13,6 @@
         <maxNumRetries>0</maxNumRetries>
         <retryWaitTime>0</retryWaitTime>
     </launcher>
-    <label>macOS</label>
+    <label>ios</label>
     <nodeProperties/>
 </slave>

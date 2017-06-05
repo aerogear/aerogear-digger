@@ -1,0 +1,10 @@
+#!/bin/bash
+
+inotifywait -mr $HOME/.android -e create -e moved_to -e modify -e attrib |
+ while read path action file; do
+  full_path="$path$file"
+  if [ -f  "$full_path" ]; then
+    echo "Changed permission for file: $full_path for action $action"
+    chmod 664 "$full_path"
+  fi
+done

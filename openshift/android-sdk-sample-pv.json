@@ -13,7 +13,7 @@
     ],
     "persistentVolumeReclaimPolicy": "Recycle",
     "hostPath": {
-      "path": "/tmp/build-farm/android-sdk-linux"
+      "path": "/tmp/jenkins/android-sdk-linux"
     }
   }
 }

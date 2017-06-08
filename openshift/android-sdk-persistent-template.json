@@ -31,23 +31,6 @@
       }
     },
     {
-      "kind": "PersistentVolumeClaim",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${ANDROID_CONFIG_SERVICE_NAME}"
-      },
-      "spec": {
-        "accessModes": [
-          "ReadWriteOnce"
-        ],
-        "resources": {
-          "requests": {
-            "storage": "${ANDROID_CONFIG_VOLUME_CAPACITY}"
-          }
-        }
-      }
-    },
-    {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -181,12 +164,6 @@
       "value": "android-sdk"
     },
     {
-      "name": "ANDROID_CONFIG_SERVICE_NAME",
-      "displayName": "Android SDK Config",
-      "description": "The name of the android sdk shared config folder",
-      "value": "android-config"
-    },
-    {
       "name": "MEMORY_LIMIT",
       "displayName": "Memory Limit",
       "description": "Maximum amount of memory the container can use.",
@@ -197,13 +174,6 @@
       "displayName": "Volume Capacity",
       "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
       "value": "10Gi",
-      "required": true
-    },
-     {
-      "name": "ANDROID_CONFIG_VOLUME_CAPACITY",
-      "displayName": "Volume Capacity",
-      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
-      "value": "500Mi",
       "required": true
     },
     {

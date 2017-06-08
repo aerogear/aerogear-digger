@@ -49,9 +49,12 @@ RUN mkdir -p /opt/gradle && \
     rm gradle-${GRADLE_VERSION}-bin.zip
 
 #fix permissions
-RUN chown -R 1001:0 $HOME && \
-    chmod -R g+rw $HOME && \
-    ln -s /opt/android-config ${HOME}/.android
+RUN mkdir -p $HOME/.android && \
+    touch $HOME/.android/analytics.settings && \
+    touch $HOME/.android/reposiories.cfg && \
+    ln -s $ANDROID_HOME/android.debug $HOME/.android/android.debug && \
+    chown -R 1001:0 $HOME && \
+    chmod -R g+rw $HOME
 
 COPY scripts/run-jnlp.sh /usr/local/bin/run-jnlp.sh 
 

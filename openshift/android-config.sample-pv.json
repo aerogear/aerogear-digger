@@ -2,18 +2,18 @@
   "kind": "PersistentVolume",
   "apiVersion": "v1",
   "metadata": {
-    "name": "android-sdk-pv"
+    "name": "android-config-pv"
   },
   "spec": {
     "capacity": {
-      "storage": "10Gi"
+      "storage": "500Mi"
     },
     "accessModes": [
       "ReadWriteOnce"
     ],
     "persistentVolumeReclaimPolicy": "Recycle",
     "hostPath": {
-      "path": "/tmp/build-farm/android-sdk-linux"
+      "path": "/tmp/build-farm/android-config"
     }
   }
 }

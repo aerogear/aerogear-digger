@@ -1,0 +1,19 @@
+{
+  "kind": "BuildConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "sample-android"
+  },
+  "spec": {
+    "source": {
+        "git": {
+            "uri": "https://github.com/maleck13/blank-android-gradle.git"
+        }
+    },
+    "strategy": {
+      "jenkinsPipelineStrategy": {
+        "jenkinsfilePath":"./Jenkinsfile"
+      }
+    }
+  }
+}

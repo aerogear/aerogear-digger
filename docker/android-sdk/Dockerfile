@@ -24,11 +24,7 @@ RUN yum install -y \
   ant \
   which\
   wget && \
-  yum groupinstall -y "Development Tools" && \
-  wget http://jensd.be/download/inotify-tools-3.14.tar.gz && \
-  tar -zxvpf inotify-tools-3.14.tar.gz && \
-  (cd inotify-tools-3.14; ./configure && make && make install) && \
-  rm -rf inotify-tools-3.14*
+  yum groupinstall -y "Development Tools"
 
 #install dependencies and links androidctl cli to /usr/bin
 RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \
@@ -40,4 +36,4 @@ RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \
     ln -s ${ANDROID_CONFIG} ${HOME}/.android && \
     ln -s /opt/tools/androidctl /usr/bin/androidctl
 
-CMD ["bash", "-c", "/opt/tools/watch"]
+CMD ["sleep", "infinity"]

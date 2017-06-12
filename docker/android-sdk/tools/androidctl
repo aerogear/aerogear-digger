@@ -6,6 +6,7 @@ import sys
 import zipfile
 import shutil
 import ConfigParser
+import distutils.util
 
 import requests
 
@@ -15,11 +16,16 @@ sdk_url = 'https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip'
 keystore_params = ('alias', 'name', 'unit', 'org', 'loc', 'state', 'country', 'storepass', 'keypass')
 
 
-def keytool(alias, name, unit, org, loc, state, country, storepass, keypass):
+def keytool_path():
   home_path = os.environ.get('HOME', '/root')
   if not os.path.exists('%s/.android' % home_path):
     os.mkdir('%s/.android' % home_path)
-  keystore_path = '%s/.android/android.debug' % home_path
+  return '%s/.android/android.debug' % home_path
+
+
+
+def keytool(alias, name, unit, org, loc, state, country, storepass, keypass):
+  ks_path = keytool_path()
   dname = 'CN=%s, OU=%s, O=%s, L=%s, S=%s, C=%s'
   dname_values = (name, unit, org, loc, state, country)
   cmd = [
@@ -27,7 +33,7 @@ def keytool(alias, name, unit, org, loc, state, country, storepass, keypass):
     '-genkey ', '-noprompt',
     '-alias',  alias,
     '-dname', dname % dname_values,
-    '-keystore', keystore_path,
+    '-keystore', ks_path,
     '-storepass', storepass,
     '-keypass', keypass,
     '-keysize', '2048',
@@ -130,12 +136,10 @@ def purge_packages(config):
       purge_pkgs.append('%s;%s' % (section.replace(':', ';'), purge_item))
   if len(purge_pkgs) > 0:
     purge_pkgs.append('--uninstall')
-    sdkmanager(*purge_pkgs)
-    
-  
+    sdkmanager(*purge_pkgs)  
 
 
-def sync_cmd(path, purge=False):
+def sync_cmd(path, purge=False, purge_key=True):
   config = ConfigParser.ConfigParser(allow_no_value=True)
   config.read(path)
   data = []
@@ -145,6 +149,9 @@ def sync_cmd(path, purge=False):
       ks_data = []
       for field in keystore_params:
         ks_data.append(ks_items[field])
+      ks_path = keytool_path()
+      if os.path.exists(ks_path) and purge_key:
+        os.remove(ks_path)
       keytool(*ks_data)
       continue
     items = config.items(section)
@@ -178,9 +185,10 @@ parser_pkg.add_argument('name', type=str, help='package name', choices=['build-t
 parser_pkg.add_argument('version', type=str, help='package version')
 #sync subcommand
 parser_sync = subparsers.add_parser('sync', help='syncs installed packages based on config file')
-parser_sync.set_defaults(fn=sync_cmd, params=['path', 'purge'])
+parser_sync.set_defaults(fn=sync_cmd, params=['path', 'purge', 'purge_key'])
 parser_sync.add_argument('path', type=str, help='config file path to be loaded')
-parser_sync.add_argument('--purge', type=bool, nargs='?', const=True, default=False, help='removes packages that are not listed in file')
+parser_sync.add_argument('--purge', type=distutils.util.strtobool, default=True, help='removes packages that are not listed in file')
+parser_sync.add_argument('--purge-key', type=distutils.util.strtobool, default=True, help='removes keytool if it already exists')
 #keystore subcommand
 parser_keystore = subparsers.add_parser('keystore', help='generates keystore debug file')
 parser_keystore.set_defaults(fn=keystore_cmd, params=keystore_params)

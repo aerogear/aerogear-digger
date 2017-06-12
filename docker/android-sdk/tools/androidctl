@@ -130,6 +130,8 @@ def purge_packages(config):
   for section in [s for s in config.sections() if s not in ('base', 'keystore')]:
     sync_items = [i[0] for i in config.items(section)]
     folder = '%s/%s' % (sdk_path, section.replace(':', '/'))
+    if not os.path.exists(folder):
+      continue
     installed_items = [i for i in os.listdir(folder)]
     purge_items = [i for i in installed_items if i not in sync_items]
     for purge_item in purge_items:

@@ -71,38 +71,41 @@ Jenkins Kubernetes plugin slaves:
 
 ### Build
 
-We are using s2i technology to for building mobile jenkins slaves. During the s2i build, a specific version of the Android SDK is installed and the user is asked to confirm all required licenses.
-
 The android slave extends the openshift/jenkins-slave-base-centos7
-Any change in s2i dockerfile would require an image build.
 
     cd android-slave directory
-    docker build -t aerogear/jenkins-android-slave-s2i
+    docker build -t docker.io/aerogear/jenkins-android-slave:2.0.0 
 
-If no changes are needed, pull the base s2i image from docker
+If changes were made then execute the following
 
-```
-docker pull docker.io/aerogear/android-sdk-sti
+    docker push docker.io/aerogear/jenkins-android-slave:2.0.0
 
-```
+The android-sdk will be installed and mounted on a PV (persistent volume in OpenShift) refer to [android-sdk](./android-sdk) 
 
-To include the android-sdk, download the required sdk, install and accept the license agreement
-The following script is an example of downloading the sdk installation
+For configuration of this image (N.B. This requires the 'Jenkins Kubernetes Plugin') :-
 
-    ```
-    wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
-    tar xzf android-sdk.tgz
+- Navigate to the Jenkins web console
+- Click on the link Manage Jenkins
+- Click on the link item 'Configure System'
+- Navigate to the section 'Kubernetes Pod Template'
+- Click on Add Pod Template
+- Enter 'android' for the pod name
+- Eneter 'android for the pod label
+- Click on 'Add' (container section)
+- For the container name enter 'jnlp'
+- Enter 'aerogear/jenkins-android-slave:2.0.0' for the docker image
+- Enter '/opt/android-sdk-linux' for the working directory (this is important - do not change it to anything else)
+- Enter '${computer.jnlpmac} ${computer.name}' for the arguments to pass
+- Now click on the section 'Add Environment Variable'
+- Enter 'ANDROID_HOME' for the key
+- Enter '/opt/android-sdk-linux'
+- Click on the section 'Add Volume' and select 'Persistent Volumke Claim'
+- Enter 'android-sdk' for the claim name (important do not change it to anything else)
+- Click 'Read Only' (i.e ensure it is enabled)
+- Enter '/opt/android-sdk-linux' for the mount path
+- Save (we are all done !!!)
 
-    android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.0,android-25,addon-google_apis_x86-google-21,extra-android-support,extra-google-google_play_services
 
-    ```
-Now execute the s2i build, assuming we are using the base image (docker.io/aerogear/android-sdk-sti i.e. no changes were needed)
-This will build the final image with the android sdk version that was installed
-
-    ```
-    s2i build <directory-where-sdk-has-been-installed> docker.io/aerogear/android-sdk-sti aerogear/jenkins-android-slave:<version>
-
-    ```
 
 For release builds, publish the image to the openshift internal registry - please refer to this link for more info
 https://docs.openshift.com/container-platform/3.3/dev_guide/managing_images.html

@@ -18,10 +18,7 @@ keystore_params = ('alias', 'name', 'unit', 'org', 'loc', 'state', 'country', 's
 
 def keytool_path():
   home_path = os.environ.get('HOME', '/root')
-  if not os.path.exists('%s/.android' % home_path):
-    os.mkdir('%s/.android' % home_path)
-  return '%s/.android/android.debug' % home_path
-
+  return '%s/android.debug' % sdk_path
 
 
 def keytool(alias, name, unit, org, loc, state, country, storepass, keypass):
@@ -48,6 +45,7 @@ def sdkmanager(*args):
     cmd
   ]
   cmd_args.extend(args)
+  print 'Running android sdkmanager, this might take a while.'
   return subprocess.call(cmd_args, stdout=sys.stdout, stderr=sys.stderr)
 
 

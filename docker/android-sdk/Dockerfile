@@ -32,6 +32,8 @@ RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \
     pip install -U -r /opt/tools/requirements.txt && \
     mkdir -p ${ANDROID_HOME} && \
     chmod 775 -R /opt && \
-    ln -s /opt/tools/androidctl /usr/bin/androidctl
+    ln -s /opt/tools/androidctl /usr/bin/androidctl && \
+    mkdir $HOME/.android && \
+    ln -s $ANDROID_HOME/android.debug  $HOME/.android/android.debug
 
 CMD ["sleep", "infinity"]

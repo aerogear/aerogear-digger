@@ -10,13 +10,13 @@ import ConfigParser
 import requests
 
 
-sdk_path = os.environ.get('ANDROID_HOME', '/opt/android-sdk-linux')
+sdk_path = os.environ.get('ANDROID_HOME', '/opt/app-root/src/android-sdk-linux')
 sdk_url = 'https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip'
 keystore_params = ('alias', 'name', 'unit', 'org', 'loc', 'state', 'country', 'storepass', 'keypass')
 
 
 def keytool(alias, name, unit, org, loc, state, country, storepass, keypass):
-  home_path = os.environ.get('HOME', '/root')
+  home_path = os.environ.get('HOME', '/opt/app-root/src')
   if not os.path.exists('%s/.android' % home_path):
     os.mkdir('%s/.android' % home_path)
   keystore_path = '%s/.android/android.debug' % home_path
@@ -131,8 +131,8 @@ def purge_packages(config):
   if len(purge_pkgs) > 0:
     purge_pkgs.append('--uninstall')
     sdkmanager(*purge_pkgs)
-    
-  
+
+
 
 
 def sync_cmd(path, purge=False):

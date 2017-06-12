@@ -57,13 +57,16 @@ def download_sdk(url=sdk_url, path=sdk_path):
   if not os.path.exists(path):
     print 'Path %s does not exists, creating it...' % path
     os.mkdir(path)
-  print 'Downloading android sdk from %s' % url
-  res =requests.get(url, stream=True)
-  with open('%s/android-sdk-linux.zip' % path, 'wb') as f:
-    for chunk in res.iter_content(chunk_size=1024):
-      if chunk:
-        f.write(chunk)
-  print 'Android SDK downloaded'
+  if os.file.isfile(path + "android-sdk-linux.zip"):
+    print 'Android Sdk already downloaded';
+  else:
+    print 'Downloading android sdk from %s' % url
+    res =requests.get(url, stream=True)
+    with open('%s/android-sdk-linux.zip' % path, 'wb') as f:
+      for chunk in res.iter_content(chunk_size=1024):
+        if chunk:
+          f.write(chunk)
+    print 'Android SDK downloaded'
 
 
 def unpack_sdk(path=sdk_path):

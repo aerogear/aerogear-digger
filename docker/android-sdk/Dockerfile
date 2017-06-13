@@ -1,4 +1,3 @@
-#FROM openshift/base-centos7:latest
 FROM centos:7
 
 MAINTAINER AeroGear Team <https://aerogear.org/>
@@ -22,8 +21,7 @@ RUN yum install -y \
   java-1.8.0-openjdk \
   ant \
   which\
-  wget && \
-  yum groupinstall -y "Development Tools"
+  wget
 
 #install dependencies and links androidctl cli to /usr/bin
 RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \
@@ -32,7 +30,7 @@ RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \
     pip install -U -r /opt/tools/requirements.txt && \
     mkdir -p ${ANDROID_HOME} && \
     chmod 775 -R /opt && \
-    ln -s /opt/tools/androidctl /usr/bin/androidctl && \
+    ln -s /opt/tools/androidctl-bin /usr/bin/androidctl && \
     mkdir $HOME/.android && \
     ln -s $ANDROID_HOME/android.debug  $HOME/.android/android.debug
 

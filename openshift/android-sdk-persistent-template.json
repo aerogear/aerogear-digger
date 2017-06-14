@@ -25,7 +25,7 @@
         ],
         "resources": {
           "requests": {
-            "storage": "${VOLUME_CAPACITY}"
+            "storage": "${ANDROID_SDK_VOLUME_CAPACITY}"
           }
         }
       }
@@ -170,7 +170,7 @@
       "value": "1Gi"
     },
     {
-      "name": "VOLUME_CAPACITY",
+      "name": "ANDROID_SDK_VOLUME_CAPACITY",
       "displayName": "Volume Capacity",
       "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
       "value": "10Gi",
@@ -186,7 +186,7 @@
       "name": "ANDROID_SDK_IMAGE_VERSION",
       "displayName": "Android SDK image version",
       "description": "Android SDK image version",
-      "value": "0.1"
+      "value": "dev"
     },
     {
       "name": "ANDROID_SDK_HOME",

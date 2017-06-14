@@ -2,7 +2,7 @@
   "kind": "PersistentVolume",
   "apiVersion": "v1",
   "metadata": {
-    "name": "android-sdk-pv1"
+    "name": "android-sdk-pv"
   },
   "spec": {
     "capacity": {
@@ -13,7 +13,7 @@
     ],
     "persistentVolumeReclaimPolicy": "Recycle",
     "hostPath": {
-      "path": "/tmp/build-farm"
+      "path": "/tmp/jenkins/android-sdk-linux"
     }
   }
 }

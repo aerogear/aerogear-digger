@@ -281,13 +281,13 @@
       "name": "JENKINS_IMAGE",
       "displayName": "Jenkins docker image reference",
       "description": "Full name of jenkins image for example ",
-      "value": "aerogear/jenkins-2-centos7"
+      "value": "docker.io/openshift/jenkins-2-centos7"
     },
     {
       "name": "JENKINS_IMAGE_VERSION",
       "displayName": "Jenkins image version",
       "description": "Jenkins image version",
-      "value": "0.1.0"
+      "value": "latest"
     },
     {
       "name": "OSX_SLAVE_HOST",

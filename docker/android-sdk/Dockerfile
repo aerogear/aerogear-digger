@@ -21,7 +21,8 @@ RUN yum install -y \
   java-1.8.0-openjdk \
   ant \
   which\
-  wget
+  wget \
+  expect
 
 #install dependencies and links androidctl cli to /usr/bin
 RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \

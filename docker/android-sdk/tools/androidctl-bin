@@ -1,11 +1,20 @@
 #!/bin/bash
 
 DIR=$(dirname "$(readlink -f "$0")")
-CMD="python $DIR/androidctl $@"
+#CMD="python $DIR/androidctl $@"
+
+getopts ":y" _ANSWER
+
+if [ "$_ANSWER" != "?" ]; then
+  ANSWER='y'
+  shift
+fi
 
 if [ -z "$ANSWER" ]; then
   ANSWER='n'
 fi
+
+CMD="python $DIR/androidctl $@"
 
 expect -c "
 set timeout -1;

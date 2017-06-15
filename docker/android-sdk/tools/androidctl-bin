@@ -1,5 +1,26 @@
 #!/bin/bash
 
 DIR=$(dirname "$(readlink -f "$0")")
+#CMD="python $DIR/androidctl $@"
 
-python "$DIR/androidctl" "$@"
+getopts ":y" _ANSWER
+
+if [ "$_ANSWER" != "?" ]; then
+  ANSWER='y'
+  shift
+fi
+
+if [ -z "$ANSWER" ]; then
+  ANSWER='n'
+fi
+
+CMD="python $DIR/androidctl $@"
+
+expect -c "
+set timeout -1;
+spawn $CMD
+expect {
+    \"Accept? (y/N):\" { exp_send \"$ANSWER\r\" ; exp_continue }
+    eof
+}
+"

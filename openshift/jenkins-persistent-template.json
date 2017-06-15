@@ -6,12 +6,16 @@
     "creationTimestamp": null,
     "annotations": {
       "openshift.io/display-name": "Jenkins (Persistent)",
-      "description": "Jenkins service, with persistent storage.\nYou must have persistent volumes available in your cluster to use this template.",
+      "description": "Jenkins service, with persistent storage.\n\nNOTE: You must have persistent volumes available in your cluster to use this template.",
       "iconClass": "icon-jenkins",
-      "tags": "instant-app,jenkins"
+      "tags": "instant-app,jenkins",
+      "template.openshift.io/long-description": "This template deploys a Jenkins server capable of managing OpenShift Pipeline builds and supporting OpenShift-based oauth login.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://docs.openshift.org/latest/using_images/other_images/jenkins.html",
+      "template.openshift.io/support-url": "https://access.redhat.com"
     }
   },
-  "message": "A Jenkins service has been created in your project.  The username/password are admin/${JENKINS_PASSWORD}.",
+  "message": "A Jenkins service has been created in your project.  Log into Jenkins with your OpenShift account.  The tutorial at https://github.com/openshift/origin/blob/master/examples/jenkins/README.md contains more information about using this template.",
   "objects": [
     {
       "kind": "Route",
@@ -61,6 +65,21 @@
         },
         "triggers": [
           {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "jenkins"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${JENKINS_IMAGE_STREAM_TAG}",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            }
+          },
+          {
             "type": "ConfigChange"
           }
         ],
@@ -80,7 +99,7 @@
             "containers": [
               {
                 "name": "jenkins",
-                "image": "${JENKINS_IMAGE}:${JENKINS_IMAGE_VERSION}",
+                "image": " ",
                 "readinessProbe": {
                   "timeoutSeconds": 3,
                   "initialDelaySeconds": 3,
@@ -90,17 +109,26 @@
                   }
                 },
                 "livenessProbe": {
-                  "timeoutSeconds": 3,
-                  "initialDelaySeconds": 120,
-                  "httpGet": {
-                    "path": "/login",
-                    "port": 8080
-                  }
+                    "timeoutSeconds": 3,
+                    "initialDelaySeconds": 420,
+                    "failureThreshold" : 30,
+                    "httpGet": {
+                        "path": "/login",
+                        "port": 8080
+                    }
                 },
                 "env": [
                   {
-                    "name": "JENKINS_PASSWORD",
-                    "value": "${JENKINS_PASSWORD}"
+                    "name": "OPENSHIFT_ENABLE_OAUTH",
+                    "value": "${ENABLE_OAUTH}"
+                  },
+                  {
+                    "name": "OPENSHIFT_ENABLE_REDIRECT_PROMPT",
+                    "value": "true"
+                  },
+                  {
+                    "name": "OPENSHIFT_JENKINS_JVM_ARCH",
+                    "value": "${JVM_ARCH}"
                   },
                   {
                     "name": "KUBERNETES_MASTER",
@@ -113,22 +141,6 @@
                   {
                     "name": "JNLP_SERVICE_NAME",
                     "value": "${JNLP_SERVICE_NAME}"
-                  },
-                  {
-                    "name": "OSX_SLAVE_HOST",
-                    "value": "${OSX_SLAVE_HOST}"
-                  },
-                  {
-                    "name": "OSX_SLAVE_PORT",
-                    "value": "${OSX_SLAVE_PORT}"
-                  },
-                  {
-                    "name": "OSX_SLAVE_USERNAME",
-                    "value": "${OSX_SLAVE_USERNAME}"
-                  },
-                  {
-                    "name": "OSX_SLAVE_PASSWORD",
-                    "value": "${OSX_SLAVE_PASSWORD}"
                   }
                 ],
                 "resources": {
@@ -167,26 +179,29 @@
     },
     {
       "kind": "ServiceAccount",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${JENKINS_SERVICE_NAME}"
-      }
+        "apiVersion": "v1",
+        "metadata": {
+            "name": "${JENKINS_SERVICE_NAME}",
+            "annotations": {
+    "serviceaccounts.openshift.io/oauth-redirectreference.jenkins": "{\"kind\":\"OAuthRedirectReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"Route\",\"name\":\"${JENKINS_SERVICE_NAME}\"}}"
+            }
+        }
     },
     {
       "kind": "RoleBinding",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${JENKINS_SERVICE_NAME}_edit"
+          "name": "${JENKINS_SERVICE_NAME}_edit"
       },
       "groupNames": null,
       "subjects": [
-        {
-          "kind": "ServiceAccount",
-          "name": "${JENKINS_SERVICE_NAME}"
-        }
+          {
+              "kind": "ServiceAccount",
+              "name": "${JENKINS_SERVICE_NAME}"
+          }
       ],
       "roleRef": {
-        "name": "edit"
+          "name": "edit"
       }
     },
     {
@@ -208,39 +223,37 @@
         "selector": {
           "name": "${JENKINS_SERVICE_NAME}"
         },
-        "portalIP": "",
         "type": "ClusterIP",
         "sessionAffinity": "None"
       }
     },
     {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${JENKINS_SERVICE_NAME}",
-        "annotations": {
-          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${JNLP_SERVICE_NAME}\", \"namespace\": \"\", \"kind\": \"Service\"}]",
-          "service.openshift.io/infrastructure": "true"
-        },
-        "creationTimestamp": null
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "protocol": "TCP",
-            "port": 80,
-            "targetPort": 8080,
-            "nodePort": 0
-          }
-        ],
-        "selector": {
-          "name": "${JENKINS_SERVICE_NAME}"
-        },
-        "portalIP": "",
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      }
+       "kind": "Service",
+       "apiVersion": "v1",
+       "metadata": {
+         "name": "${JENKINS_SERVICE_NAME}",
+         "annotations": {
+           "service.alpha.openshift.io/dependencies": "[{\"name\": \"${JNLP_SERVICE_NAME}\", \"namespace\": \"\", \"kind\": \"Service\"}]",
+           "service.openshift.io/infrastructure": "true"
+         },
+         "creationTimestamp": null
+       },
+       "spec": {
+         "ports": [
+           {
+             "name": "web",
+             "protocol": "TCP",
+             "port": 80,
+             "targetPort": 8080,
+             "nodePort": 0
+           }
+         ],
+         "selector": {
+           "name": "${JENKINS_SERVICE_NAME}"
+         },
+         "type": "ClusterIP",
+         "sessionAffinity": "None"
+       }
     }
   ],
   "parameters": [
@@ -257,12 +270,16 @@
       "value": "jenkins-jnlp"
     },
     {
-      "name": "JENKINS_PASSWORD",
-      "displayName": "Jenkins Password",
-      "description": "Password for the Jenkins 'admin' user.",
-      "generate": "expression",
-      "from": "[a-zA-Z0-9]{16}",
-      "required": true
+      "name": "ENABLE_OAUTH",
+      "displayName": "Enable OAuth in Jenkins",
+      "description": "Whether to enable OAuth OpenShift integration. If false, the static account 'admin' will be initialized with the password 'password'.",
+      "value": "true"
+    },
+    {
+      "name": "JVM_ARCH",
+      "displayName": "Jenkins JVM Architecture",
+      "description": "Whether Jenkins runs with a 32 bit (i386) or 64 bit (x86_64) JVM.",
+      "value": "i386"
     },
     {
       "name": "MEMORY_LIMIT",
@@ -278,40 +295,16 @@
       "required": true
     },
     {
-      "name": "JENKINS_IMAGE",
-      "displayName": "Jenkins docker image reference",
-      "description": "Full name of jenkins image for example ",
-      "value": "docker.io/openshift/jenkins-2-centos7"
+      "name": "NAMESPACE",
+      "displayName": "Jenkins ImageStream Namespace",
+      "description": "The OpenShift Namespace where the Jenkins ImageStream resides.",
+      "value": "openshift"
     },
     {
-      "name": "JENKINS_IMAGE_VERSION",
-      "displayName": "Jenkins image version",
-      "description": "Jenkins image version",
-      "value": "latest"
-    },
-    {
-      "name": "OSX_SLAVE_HOST",
-      "displayName": "Jenkins OSX slave host",
-      "description": "leave empty if you don't want an OSX slave",
-      "value": ""
-    },
-    {
-      "name": "OSX_SLAVE_PORT",
-      "displayName": "Jenkins OSX slave SSH port",
-      "description": "ignored if OSX_SLAVE_HOST is not set",
-      "value": "22"
-    },
-    {
-      "name": "OSX_SLAVE_USERNAME",
-      "displayName": "SSH username for Jenkins OSX slave",
-      "description": "ignored if OSX_SLAVE_HOST is not set",
-      "value": ""
-    },
-    {
-      "name": "OSX_SLAVE_PASSWORD",
-      "displayName": "SSH pasword for Jenkins OSX slave",
-      "description": "ignored if OSX_SLAVE_HOST is not set",
-      "value": ""
+      "name": "JENKINS_IMAGE_STREAM_TAG",
+      "displayName": "Jenkins ImageStreamTag",
+      "description": "Name of the ImageStreamTag to be used for the Jenkins image.",
+      "value": "jenkins:latest"
     }
   ],
   "labels": {

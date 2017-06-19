@@ -5,7 +5,7 @@ from collections import namedtuple
 
 _cwd = os.path.dirname(os.path.realpath(__file__))
 config = None
-SDK = namedtuple('Properties', ['path', 'url'])
+SDK = namedtuple('Properties', ['path', 'url', 'shell'])
 KeyTool = namedtuple('KeyTool', ['name', 'params'])
 sdk = None
 keytool = None

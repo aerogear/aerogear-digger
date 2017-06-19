@@ -12,13 +12,19 @@ import props
 
 sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
 sdk_url = props.sdk.url
-
+https_proxy = os.environ.get('HTTPS_PROXY')
 
 def manager(*args):
   cmd = '%s/tools/bin/sdkmanager' % sdk_path
   cmd_args = [
     cmd
   ]
+  proxy_settings = getProxySettings(https_proxy)
+  if proxy_settings:
+    proxy_flags = ['--proxy=http', '--proxy_host=%s' % proxy_settings[0]]
+    if proxy_settings[1]:
+      proxy_flags.append('--proxy_port=%s' % proxy_settings[1])
+    cmd_args.extend(proxy_flags)
   cmd_args.extend(args)
   print 'Running android sdkmanager, this might take a while.'
   return subprocess.call(cmd_args, stdout=sys.stdout, stderr=sys.stderr)
@@ -60,3 +66,14 @@ def uninstall(path=sdk_path):
   print 'Uninstalling Android SDK at %s' % path
   shutil.rmtree(path)
   print 'Android SDK deleted from %s' % path
+
+def getProxySettings(proxy=https_proxy):
+  proxy_settings = None
+  if proxy:
+    parts = proxy.split(':')
+    proxy_host = parts[0]
+    proxy_port = None
+    if parts[1]:
+      proxy_port = parts[1]
+    proxy_settings = (proxy_host, proxy_port)
+  return proxy_settings

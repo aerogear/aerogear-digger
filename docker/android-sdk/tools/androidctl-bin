@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DIR=$(dirname "$(readlink -f "$0")")
-#CMD="python $DIR/androidctl $@"
 
 getopts ":y" _ANSWER
 
@@ -20,7 +19,13 @@ expect -c "
 set timeout -1;
 spawn $CMD
 expect {
-    \"Accept? (y/N):\" { exp_send \"$ANSWER\r\" ; exp_continue }
+    \"Accept? (y/N):\" { 
+      exp_send \"$ANSWER\r\";
+      if {$ANSWER eq \"y\"} {
+        exp_send \"Android SDK license accepted, resuming installation process...\n\";
+      }
+      exp_continue;
+    }
     eof
 }
 "

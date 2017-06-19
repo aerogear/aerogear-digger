@@ -12,11 +12,14 @@ import props
 
 sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
 sdk_url = props.sdk.url
+sdk_shell = props.sdk.shell
 https_proxy = os.environ.get('HTTPS_PROXY')
+
 
 def manager(*args):
   cmd = '%s/tools/bin/sdkmanager' % sdk_path
   cmd_args = [
+    sdk_shell,
     cmd
   ]
   proxy_settings = getProxySettings(https_proxy)

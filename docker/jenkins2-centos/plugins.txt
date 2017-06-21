@@ -1,2 +1,0 @@
-cloudbees-folder:5.13
-ssh-slaves:1.12

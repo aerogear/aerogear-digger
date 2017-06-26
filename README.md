@@ -33,11 +33,6 @@ Contains custom Jenkins Dockerfiles.
 
 [See the readme](../master/docker)
 
-### `/openshift`
-Contains OpenShift Container Platform templates
-
-[See the readme](../master/openshift)
-
 ### `/jenkinsfiles`
 Contains Jenkins job definitions for each platform
 
@@ -48,3 +43,6 @@ Contains Jenkins groovy scripts used to perform administration tasks on jenkins
 
 [See the readme](../master/admin)
 
+## Installation
+
+AeroGear Digger can be installed using Ansible Scripts available in the github repo [digger-installer](https://github.com/aerogear/digger-installer)

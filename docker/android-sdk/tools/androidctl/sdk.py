@@ -8,12 +8,14 @@ import shutil
 import requests
 
 import props
-
+from urlparse import urlparse
 
 sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
 sdk_url = props.sdk.url
 sdk_shell = props.sdk.shell
 https_proxy = os.environ.get('HTTPS_PROXY')
+if not https_proxy:
+  https_proxy = os.environ.get('HTTP_PROXY')
 
 
 def manager(*args):
@@ -73,10 +75,11 @@ def uninstall(path=sdk_path):
 def getProxySettings(proxy=https_proxy):
   proxy_settings = None
   if proxy:
-    parts = proxy.split(':')
-    proxy_host = parts[0]
-    proxy_port = None
-    if parts[1]:
-      proxy_port = parts[1]
+    if not '://' in proxy:
+      proxy = 'http://%s' %  proxy
+    parts = urlparse(proxy)
+    proxy_host = parts.hostname
+    if parts.port:
+      proxy_port = parts.port
     proxy_settings = (proxy_host, proxy_port)
   return proxy_settings

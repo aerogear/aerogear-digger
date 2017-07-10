@@ -48,6 +48,11 @@ RUN mkdir -p /opt/gradle && \
     unzip -d /opt/gradle gradle-${GRADLE_VERSION}-bin.zip && \
     rm gradle-${GRADLE_VERSION}-bin.zip
 
+#install jq
+RUN wget -O jq  https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && \
+    chmod +x ./jq &&\
+    cp jq /usr/bin
+
 #fix permissions
 RUN mkdir -p $HOME/.android && \
     touch $HOME/.android/analytics.settings && \

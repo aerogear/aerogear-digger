@@ -1,7 +1,7 @@
 {
     "android": {
         "debug": {
-            "keystore": "/opt/android-sdk/android.debug",
+            "keystore": "/opt/android-sdk-linux/android.debug",
             "storePassword": "android",
             "alias": "android",
             "password" : "android",

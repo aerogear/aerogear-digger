@@ -39,7 +39,7 @@ CLEAN = params?.CLEAN?.trim()?.toBoolean() ?: true                  // default v
 
 // parametrized things
 
-FH_CONFIG_CONTENT = params.FH_CONFIG_CONTENT
+FH_CONFIG_CONTENT = params?.FH_CONFIG_CONTENT ?: ""
 
 
 node('ios') {
@@ -49,7 +49,7 @@ node('ios') {
 
     stage('Prepare') {
         writeFile file: "${PROJECT_NAME}/fhconfig.plist", text: FH_CONFIG_CONTENT
-        sh '(/usr/local/bin/pod install)'
+        sh '/usr/local/bin/pod install'
     }
 
     stage('Build') {

@@ -11,6 +11,7 @@ When moving to repositories they should be renamed to `Jenkinsfile`.
 
 - `android_jenkinsfile.groovy`
 - `cordova_jenkinsfile.groovy`
+- `ios_jenkinsfile.groovy`
 
 ## Development
 

@@ -1,12 +1,17 @@
 /**
 * IOS Jenkinsfile
 */
-// sample values commented below are for https://github.com/feedhenry-templates/helloworld-ios-swift
 
+//     in RHMAP's case, following parameter is sent by RHMAP to Jenkins job.
+//     this means, Jenkins job has to be a parametrized build with that parameter.
+CODE_SIGN_PROFILE_ID = params?.BUILD_CREDENTIAL_ID.trim()                 // e.g. "redhat-dist-dp"
+//     if you would like to hardcode it, do it this way
+//CODE_SIGN_PROFILE_ID = "redhat-dist-dp"
+
+// sample values commented below are for https://github.com/feedhenry-templates/helloworld-ios-swift
 /* ------------- use these to hardcode things in Jenkinsfile ---------------- */
 PROJECT_NAME = "helloworld-ios-app"
 INFO_PLIST = "helloworld-ios-app/helloworld-ios-app-Info.plist"
-CODE_SIGN_PROFILE_ID = "redhat-dist-dp"
 VERSION = "0.1-alpha"
 SHORT_VERSION = "0.1"
 BUNDLE_ID = "com.feedhenry.helloworld-ios-app"
@@ -22,7 +27,6 @@ CLEAN = true                          // do a clean build and sign
 /*
 PROJECT_NAME = params?.PROJECT_NAME?.trim()                         // e.g. "helloworld-ios-app"
 INFO_PLIST = params?.INFO_PLIST?.trim()                             // e.g. "helloworld-ios-app/helloworld-ios-app-Info.plist"
-CODE_SIGN_PROFILE_ID = params?.CODE_SIGN_PROFILE_ID                 // e.g. "redhat-dist-dp"
 VERSION = params?.APP_VERSION?.trim()                               // e.g. "0.1-alpha"
 SHORT_VERSION = params?.APP_SHORT_VERSION?.trim()                   // e.g. "0.1"
 BUNDLE_ID = params?.BUNDLE_ID?.trim()                               // e.g. "com.feedhenry.helloworld-ios-app"
@@ -34,7 +38,11 @@ XC_VERSION = params?.XC_VERSION?.trim() ?: ""                       // use somet
 CLEAN = params?.CLEAN?.trim()?.toBoolean() ?: true                  // default value is true
 */
 
-
+/*
+NOTE: RHMAP sends `BUILD_CONFIG` parameter to denote if it is a debug build or a release build.
+      However, from codesign/xcodebuild perspective, the thing we have to do is the same.
+      So, we just ignore that parameter.
+*/
 
 
 // parametrized things

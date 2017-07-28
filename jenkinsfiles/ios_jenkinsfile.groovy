@@ -2,11 +2,14 @@
 * IOS Jenkinsfile
 */
 
-//     in RHMAP's case, following parameter is sent by RHMAP to Jenkins job.
-//     this means, Jenkins job has to be a parametrized build with that parameter.
-CODE_SIGN_PROFILE_ID = params?.BUILD_CREDENTIAL_ID.trim()                 // e.g. "redhat-dist-dp"
-//     if you would like to hardcode it, do it this way
+//     in RHMAP's case, following parameters are sent by RHMAP to Jenkins job.
+//     this means, Jenkins job has to be a parametrized build with those parameter.
+CODE_SIGN_PROFILE_ID = params?.BUILD_CREDENTIAL_ID?.trim()                 // e.g. "redhat-dist-dp"
+BUILD_CONFIG = params?.BUILD_CONFIG?.trim()                                // e.g. "Debug" or "Release"
+
+//     if you would like to hardcode these, do it this way
 //CODE_SIGN_PROFILE_ID = "redhat-dist-dp"
+//BUILD_CONFIG = "Debug"
 
 // sample values commented below are for https://github.com/feedhenry-templates/helloworld-ios-swift
 /* ------------- use these to hardcode things in Jenkinsfile ---------------- */
@@ -49,6 +52,14 @@ NOTE: RHMAP sends `BUILD_CONFIG` parameter to denote if it is a debug build or a
 
 FH_CONFIG_CONTENT = params?.FH_CONFIG_CONTENT ?: ""
 
+// RHMAP specific things. RHMAP currently sends build config type all lower case. we handle it here as case matters for Xcode.
+// also, RHMAP can send "Distribution" config. we use "Release" in that case.
+if(BUILD_CONFIG.toLowerCase() == "debug"){
+    BUILD_CONFIG = "Debug"
+}
+else if(BUILD_CONFIG.toLowerCase() == "release" || BUILD_CONFIG.toLowerCase() == "distribution"){
+    BUILD_CONFIG = "Release"
+}
 
 node('ios') {
     stage('Checkout') {
@@ -74,7 +85,8 @@ node('ios') {
                     bundleId: "${BUNDLE_ID}",
                     infoPlistPath: "${INFO_PLIST}",
                     flags: '-fstack-protector -fstack-protector-all ENABLE_BITCODE=NO',
-                    autoSign: false
+                    autoSign: false,
+                    config: "${BUILD_CONFIG}"
             )
         }
     }

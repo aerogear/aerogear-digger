@@ -19,6 +19,7 @@ VERSION = "0.1-alpha"
 SHORT_VERSION = "0.1"
 BUNDLE_ID = "com.feedhenry.helloworld-ios-app"
 OUTPUT_FILE_NAME = "myapp.ipa"
+SDK = "iphoneos"
 
 XC_VERSION = ""                       // use something like 8.3 to use a specific XCode version.
                                       // if not set, the default Xcode on the machine will be used
@@ -34,6 +35,7 @@ VERSION = params?.APP_VERSION?.trim()                               // e.g. "0.1
 SHORT_VERSION = params?.APP_SHORT_VERSION?.trim()                   // e.g. "0.1"
 BUNDLE_ID = params?.BUNDLE_ID?.trim()                               // e.g. "com.feedhenry.helloworld-ios-app"
 OUTPUT_FILE_NAME = params?.OUTPUT_FILE_NAME?.trim() ?: "myapp.ipa"  // if not set, myapp.ipa will be used
+SDK = params?.OUTPUT_FILE_NAME?.trim() ?: "iphoneos"                // if not set, "iphoneos" will be used
 
 XC_VERSION = params?.XC_VERSION?.trim() ?: ""                       // use something like 8.3 to use a specific XCode version.
                                                                     // if not set, the default Xcode on the machine will be used
@@ -79,7 +81,7 @@ node('ios') {
                     schema: "${PROJECT_NAME}",
                     workspace: "${PROJECT_NAME}",
                     buildDir: "build",
-                    sdk: "iphoneos",
+                    sdk: "${SDK}",
                     version: "${VERSION}",
                     shortVersion: "${SHORT_VERSION}",
                     bundleId: "${BUNDLE_ID}",
@@ -97,11 +99,11 @@ node('ios') {
                 clean: CLEAN,
                 verify: true,
                 ipaName: "${OUTPUT_FILE_NAME}",
-                appPath: "build/Debug-iphoneos/${PROJECT_NAME}.app"
+                appPath: "build/${BUILD_CONFIG}-${SDK}/${PROJECT_NAME}.app"
         )
     }
 
     stage('Archive') {
-        archiveArtifacts "build/Debug-iphoneos/${OUTPUT_FILE_NAME}"
+        archiveArtifacts "build/${BUILD_CONFIG}-${SDK}/${OUTPUT_FILE_NAME}"
     }
 }

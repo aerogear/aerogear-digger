@@ -86,8 +86,8 @@ node('ios') {
                     shortVersion: "${SHORT_VERSION}",
                     bundleId: "${BUNDLE_ID}",
                     infoPlistPath: "${INFO_PLIST}",
-                    flags: '-fstack-protector -fstack-protector-all ENABLE_BITCODE=NO',
-                    autoSign: false,
+                    xcodeBuildArgs: 'ENABLE_BITCODE=NO OTHER_CFLAGS="-fstack-protector -fstack-protector-all"',
+										autoSign: false,
                     config: "${BUILD_CONFIG}"
             )
         }

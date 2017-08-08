@@ -28,7 +28,7 @@ GROUP_ID=20
 ############### end of parameters
 ###############
 
-echo "IMPORTANT: this script will now create user ${USERNAME} with password ${PASSWORD}."
+echo "IMPORTANT: this script will now create user ${USERNAME} with password ${PASSWORD} and add him to sudoers list."
 echo "Your machine will be accessible with SSH using these credentials."
 
 . /etc/rc.common
@@ -43,5 +43,6 @@ dscl . create /Users/${USERNAME} NFSHomeDirectory /Users/${USERNAME}
 cp -R /System/Library/User\ Template/English.lproj /Users/${USERNAME}
 chown -R ${USERNAME}:${GROUP_NAME} /Users/${USERNAME}
 
+echo "${USERNAME}  ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 echo "Done creating OSX user."

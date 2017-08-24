@@ -24,17 +24,17 @@ node(platform) {
     }
 
     stage("Prepare") {
-        sh "cordova platform rm $platform"
-        sh "cordova platform add $platform"
-        sh "cordova prepare $platform"
+        sh "cordova platform rm ${platform}"
+        sh "cordova platform add ${platform}"
+        sh "cordova prepare ${platform}"
     }
 
     stage("Build") {
-            if (BUILD_CONFIG == 'debug') {
-               sh 'cordova build $platform --debug'
-            } else {
-               sh 'cordova build $platform --release'
-            }
+        if (BUILD_CONFIG == 'debug') {
+            sh "cordova build ${platform} --debug"
+        } else {
+            sh "cordova build ${platform} --release"
+        }
     }
 
     stage("Sign") {
@@ -66,7 +66,7 @@ node(platform) {
 
     stage("Archive") {
         if (platform == 'android') {
-            archiveArtifacts artifacts: 'platforms/android/build/outputs/apk/android-${BUILD_CONFIG}.apk', excludes: 'platforms/android/build/outputs/apk/*-unaligned.apk'
+            archiveArtifacts artifacts: "platforms/android/build/outputs/apk/android-${BUILD_CONFIG}.apk", excludes: 'platforms/android/build/outputs/apk/*-unaligned.apk'
         }
         if (platform == 'ios') {
             archiveArtifacts artifacts: "platforms/ios/build/emulator/${PROJECT_NAME}.ipa"

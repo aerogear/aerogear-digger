@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script will upload the given binary to MobileIron Cloud
+# This script will upload the Client App binaries to MobileIron Cloud
 usage() 
 {
   echo "Usage: cloud_uploadapp.sh <MobileIron host> <MobileIron username> <MobileIron password> <platform name (IOS or Android)> <path to the file to upload>"
@@ -19,7 +19,6 @@ FILE_TO_UPLOAD=$5
 
 GREP_CLI="grep"
 if [ "$(uname)" == "Darwin" ]; then
-  #make sure gnu grep is installed on macosx
   GREP_CLI="ggrep"
 fi
 

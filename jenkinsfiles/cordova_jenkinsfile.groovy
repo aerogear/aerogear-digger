@@ -16,7 +16,7 @@ CODE_SIGN_PROFILE_ID = params?.BUILD_CREDENTIAL_ID?.trim()   // e.g. "redhat-dis
 /* ------------- use these to hardcode values in Jenkinsfile ---------------- */
 PROJECT_NAME = "Helloworld"
 CLEAN = true                          // Do a clean build and sign
-INFO_PLIST = "Helloworld/Helloworld-Info.plist"
+INFO_PLIST = "${PROJECT_NAME}/${PROJECT_NAME}-Info.plist"
 VERSION = "1.0.0"
 SHORT_VERSION = "1.0"
 BUNDLE_ID = "org.feedhenry.dart.helloworld.cordova"

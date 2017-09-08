@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script will upload the given binary to MobileIron Cloud
+# Use this script to upload the Client App binaries to MobileIron Cloud
 usage() 
 {
   echo "Usage: core_uploadapp.sh <MobileIron host> <MobileIron username> <MobileIron password> <path to the file to upload>"

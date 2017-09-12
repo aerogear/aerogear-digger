@@ -9,7 +9,7 @@ If using macOS, have `grep` installed.
 
 Use `cloud_uploadapp.sh` to upload apps to MobileIron Cloud.
 
-To use this script as part of a Jenkins pipeline, include it in the Client App repo, and modify the App building Jenkinsfile to invoke the script after the build by adding the following code:
+To use this script as part of a Jenkins pipeline, include it in the Client App repo, and modify the Jenkinsfile to invoke the script after the build by adding the following code:
 
 ```groovy
 stage("Upload To MobileIron Cloud"){
@@ -34,7 +34,7 @@ stage("Upload To MobileIron Cloud"){
 
 Use `core_uploadapp.sh` to upload apps to MobileIron Core. The API for uploading apps is different from  MobileIron Cloud.
 
-To use this script as part of a Jenkins pipeline, include it in the Client App repo, and modify the App building Jenkinsfile to invoke the script after the build by adding the following code:
+To use this script as part of a Jenkins pipeline, include it in the Client App repo, and modify the Jenkinsfile to invoke the script after the build by adding the following code:
 
 ```groovy
 stage("Upload To MobileIron Core") {

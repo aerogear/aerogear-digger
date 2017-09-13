@@ -15,8 +15,8 @@ BUILD_CONFIG = params?.BUILD_CONFIG?.trim()                                // e.
 /* ------------- use these to hardcode things in Jenkinsfile ---------------- */
 PROJECT_NAME = "helloworld-ios-app"
 INFO_PLIST = "helloworld-ios-app/helloworld-ios-app-Info.plist"
-VERSION = "0.1-alpha"
-SHORT_VERSION = "0.1"
+VERSION = "1.0.0"
+SHORT_VERSION = "1.0"
 BUNDLE_ID = "com.feedhenry.helloworld-ios-app"
 OUTPUT_FILE_NAME = "myapp.ipa"
 SDK = "iphoneos"

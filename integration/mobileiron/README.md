@@ -1,12 +1,15 @@
-## Introduction
+## Uploading Client App binaries built with Aerogear Digger to MobileIron MDM repositories
 
-The scripts here are used to upload built binaries to MobileIron automatically. They can be included in the Jenkins pipeline as part of CI/CD process.
+Include these scripts in your Jenkins pipeline to automatically upload Client App binaries to MobileIron.
 
-## Upload to MobileIron Cloud
+## Prerequisities
+If using macOS, have `grep` installed.
 
-The `cloud_uploadapp.sh` is used to upload apps to MobileIron Cloud.
+## Upload Client App binaries to MobileIron Cloud
 
-To use this script as part of the Jenkins pipeline, you should include this file in your repo, and then add a stage after the app is built in the Jenkinsfile to invoke the script like this:
+Use `cloud_uploadapp.sh` to upload apps to MobileIron Cloud.
+
+To use this script as part of a Jenkins pipeline, include it in the Client App repo, and modify the Jenkinsfile to invoke the script after the build by adding the following code:
 
 ```groovy
 stage("Upload To MobileIron Cloud"){
@@ -27,11 +30,11 @@ stage("Upload To MobileIron Cloud"){
  }
 ```
 
-## Upload to MobileIron Core
+## Upload Client App binaries to MobileIron Core
 
-The `core_uploadapp.sh` can be used to upload apps to MobileIron Core. The API for uploading apps is different in MobileIron Core.
+Use `core_uploadapp.sh` to upload apps to MobileIron Core. The API for uploading apps is different from  MobileIron Cloud.
 
-Similarly, you can use the following code to upload an app to MobileIron Core after it's built:
+To use this script as part of a Jenkins pipeline, include it in the Client App repo, and modify the Jenkinsfile to invoke the script after the build by adding the following code:
 
 ```groovy
 stage("Upload To MobileIron Core") {

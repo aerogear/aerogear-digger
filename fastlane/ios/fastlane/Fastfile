@@ -21,9 +21,9 @@ lane :build do |options|
   xcodebuild(
     clean: true,
     build: true,
-    scheme: 'helloworld-ios-app',
-    workspace: 'helloworld-ios-app.xcworkspace',
-    configuration: 'Release',
+    scheme: options[:scheme],
+    workspace: options[:workspace],
+    configuration: options[:config],
     skip_package_ipa: true,
     xcargs: @xcargs.join(' ')
   )
@@ -31,18 +31,17 @@ end
 
 lane :sign do |options|
   keychain(
-    keychain_name: 'digger-jenkins.keychain',
-    keychain_password: '12345',
-    cert_path: "/path/to/developer_cert.cer",
-    key_path: "/path/to/private_key.p12",
-    key_password: '12345',
-    delete_keychain: true
+    keychain_name: options[:keychain_name],
+    keychain_password: options[:keychain_password],
+    cert_path: options[:cert_path],
+    key_path: options[:key_path],
+    key_password: options[:key_password],
+    delete_keychain: options[:delete_keychain]
   )
 
   codesign(
-    app_path: 'build/Release-iphoneos/helloworld-ios-app.app',
-    config: 'Release',
-    profile_path: "/path/to/profile.mobileprovision",
-    ipa_path: 'app-release.ipa'
+    app_path: options[:app_path],
+    profile_path: options[:profile_path],
+    ipa_path: options[:ipa_path]
   )
 end

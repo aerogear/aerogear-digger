@@ -1,0 +1,48 @@
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version '1.109.0'
+
+default_platform :ios
+
+lane :prepare do
+  pod(verbose: true)
+end
+
+lane :build do |options|
+  @xcargs = [
+    'ENABLE_BITCODE=NO',
+    '"OTHER_CFLAGS=-fstack-protector -fstack-protector-all"',
+    'CODE_SIGN_IDENTITY=',
+    'CODE_SIGNING_REQUIRED=NO',
+    'DEVELOPMENT_TEAM=null',
+    "BUILD_DIR=#{ENV['PWD']}/build"
+  ]
+  xcodebuild(
+    clean: true,
+    build: true,
+    scheme: 'helloworld-ios-app',
+    workspace: 'helloworld-ios-app.xcworkspace',
+    configuration: 'Release',
+    skip_package_ipa: true,
+    xcargs: @xcargs.join(' ')
+  )
+end
+
+lane :sign do |options|
+  keychain(
+    keychain_name: 'digger-jenkins.keychain',
+    keychain_password: '12345',
+    cert_path: "/path/to/developer_cert.cer",
+    key_path: "/path/to/private_key.p12",
+    key_password: '12345',
+    delete_keychain: true
+  )
+
+  codesign(
+    app_path: 'build/Release-iphoneos/helloworld-ios-app.app',
+    config: 'Release',
+    profile_path: "/path/to/profile.mobileprovision",
+    ipa_path: 'app-release.ipa'
+  )
+end

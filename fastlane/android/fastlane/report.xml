@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: Verifying required fastlane version" time="0.000937659">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000701956">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: jarsign" time="1.712957154">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: zipalign" time="519.693324646">
+        
+          <failure message="/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/actions/actions_helper.rb:48:in `execute_action'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:230:in `block in execute_action'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:226:in `chdir'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:226:in `execute_action'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:148:in `trigger_action_by_name'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/fast_file.rb:146:in `method_missing'&#10;Fastfile:33:in `block in parsing_binding'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/lane.rb:33:in `call'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/lane.rb:33:in `call'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:49:in `block in execute'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:45:in `chdir'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/runner.rb:45:in `execute'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/lane_manager.rb:52:in `cruise_lane'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/command_line_handler.rb:30:in `handle'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/commands_generator.rb:104:in `block (2 levels) in run'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/commander-fastlane-4.4.5/lib/commander/command.rb:178:in `call'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/commander-fastlane-4.4.5/lib/commander/command.rb:178:in `call'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/commander-fastlane-4.4.5/lib/commander/command.rb:153:in `run'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/commander-fastlane-4.4.5/lib/commander/runner.rb:476:in `run_active_command'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane_core/lib/fastlane_core/ui/fastlane_runner.rb:64:in `run!'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/commander-fastlane-4.4.5/lib/commander/delegates.rb:15:in `run!'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/commands_generator.rb:303:in `run'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/commands_generator.rb:42:in `start'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/fastlane/lib/fastlane/cli_tools_distributor.rb:66:in `take_off'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/gems/fastlane-2.50.1/bin/fastlane:20:in `&lt;top (required)&gt;'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/bin/fastlane:23:in `load'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/bin/fastlane:23:in `&lt;main&gt;'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/bin/ruby_executable_hooks:15:in `eval'&#10;/home/lrossett/.rvm/gems/ruby-2.2.6/bin/ruby_executable_hooks:15:in `&lt;main&gt;'&#10;&#10;Exit status of command '${ANDROID_HOME}/build-tools//zipalign -v -f 4 app/build/outputs/apk/app-release-unaligned.apk   app/build/outputs/apk/app-release.apk' was 127 instead of 0.&#10;sh: /home/lrossett/android-sdk-linux/build-tools//zipalign: No such file or directory&#10;" />
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

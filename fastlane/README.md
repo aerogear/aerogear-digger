@@ -26,3 +26,8 @@ Please refer to each platform's specific documentation for detailed information:
 [iOS Sample](./ios)
 [Android Sample](./android)
 
+## Digger-jenkins usage
+
+Fastlane version: 2.60.1
+
+Copy the specific platform (ios/android) fastlane folder and Jenkinsfile to your project root's folder and trigger a build in your digger-jenkins instance.

@@ -1,0 +1,47 @@
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version '1.109.0'
+
+default_platform :ios
+
+lane :prepare do
+  pod(verbose: true)
+end
+
+lane :build do |options|
+  @xcargs = [
+    'ENABLE_BITCODE=NO',
+    '"OTHER_CFLAGS=-fstack-protector -fstack-protector-all"',
+    'CODE_SIGN_IDENTITY=',
+    'CODE_SIGNING_REQUIRED=NO',
+    'DEVELOPMENT_TEAM=null',
+    "BUILD_DIR=#{ENV['PWD']}/build"
+  ]
+  xcodebuild(
+    clean: true,
+    build: true,
+    scheme: options[:scheme],
+    workspace: options[:workspace],
+    configuration: options[:config],
+    skip_package_ipa: true,
+    xcargs: @xcargs.join(' ')
+  )
+end
+
+lane :sign do |options|
+  keychain(
+    keychain_name: options[:keychain_name],
+    keychain_password: options[:keychain_password],
+    cert_path: options[:cert_path],
+    key_path: options[:key_path],
+    key_password: options[:key_password],
+    delete_keychain: options[:delete_keychain]
+  )
+
+  codesign(
+    app_path: options[:app_path],
+    profile_path: options[:profile_path],
+    ipa_path: options[:ipa_path]
+  )
+end

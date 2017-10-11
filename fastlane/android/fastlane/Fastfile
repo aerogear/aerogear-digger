@@ -1,0 +1,37 @@
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version '1.109.0'
+
+default_platform :android
+
+lane :build do |options|
+  clean = options[:clean]
+  config = options[:config]
+  config_ref = {
+    'debug' => 'assembleDebug',
+    'release' => 'assembleRelease'
+  }
+  config_ref.default = config_ref['debug']
+
+  if clean then
+    gradle(task: 'clean')
+  end
+
+  gradle(task: config_ref[config])
+end
+
+lane :sign do |options|
+  jarsign(
+    alias: options[:alias],
+    storepass: options[:storepass],
+    keystore_path: options[:keystore],
+    tsa: 'http://timestamp.comodoca.com/rfc316',
+    signed_apk_path: options[:apk_path],
+    keypass: options[:keypass]
+  )
+  zipalign(
+    apk_path: options[:apk_path],
+    build_tool: options[:build_tool]
+  )
+end

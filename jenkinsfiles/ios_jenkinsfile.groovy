@@ -13,8 +13,8 @@ BUILD_CONFIG = params?.BUILD_CONFIG?.trim()                                // e.
 
 // sample values commented below are for https://github.com/feedhenry-templates/helloworld-ios-swift
 /* ------------- use these to hardcode values in Jenkinsfile ---------------- */
-PROJECT_NAME = "helloworld-ios-app"
-INFO_PLIST = "helloworld-ios-app/helloworld-ios-app-Info.plist"
+PROJECT_NAME = "__PROJECT_NAME__"
+INFO_PLIST = "${PROJECT_NAME}/${PROJECT_NAME}-Info.plist"
 VERSION = "1.0.0"
 SHORT_VERSION = "1.0"
 BUNDLE_ID = "com.feedhenry.helloworld-ios-app"

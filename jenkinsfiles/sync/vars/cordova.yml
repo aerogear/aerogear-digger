@@ -1,0 +1,16 @@
+---
+platform: cordova
+template_branch: master
+template_folder: ~/work/feedhenry-templates
+template_org: feedhenry-templates
+template_should_commit: no
+template_list:
+  - sync-cordova-app
+  - pushstarter-cordova-app
+  - saml-cordova-app
+  - helloworld-app
+  - feedhenry-cordova-sync-app
+  - quickstart-angular-app
+  - quickstart-ionic-app
+  - quickstart-backbone-app
+  - welcome-app

@@ -1,0 +1,4 @@
+---
+digger_jenkins_repo: https://github.com/aerogear/digger-jenkins.git
+digger_jenkins_folder: ~/work/aerogear/digger-jenkins-temp
+digger_jenkins_head: sync-jenkinsfiles

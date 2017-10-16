@@ -1,0 +1,21 @@
+---
+platform: ios
+template_branch: master
+template_folder: ~/work/feedhenry-templates
+template_org: feedhenry-templates
+template_should_commit: no
+template_list:
+  - helloworld-ios
+  - helloworld-ios-swift
+  - welcome-ios
+  - welcome-ios-swift
+  - pushstarter-ios-app
+  - pushstarter-ios-swift
+  - sync-ios-app
+  - sync-ios-swift
+  - saml-ios-app
+  - saml-ios-swift
+  - blank-ios-app
+  - blank-ios-swift
+  - oauth-ios-app
+  - oauth-ios-swift

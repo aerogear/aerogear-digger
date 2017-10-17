@@ -52,7 +52,7 @@ openssl rsa -in ~/.ssh/id_rsa -out ~/.ssh/id_rsa_no_pw
 
 Rename the new key file:
 ```
-mv id_rsa_no_pw id_rsa
+mv ~/.ssh/id_rsa_no_pw ~/.ssh/id_rsa
 ```
 
 **Start OpenShift**

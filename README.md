@@ -29,13 +29,14 @@ https://github.com/aerogear/digger-node
 Check out the video [here](bla) to kick start AeroGear Digger!
 Here are the instructions used in that video:
 
-**Requirements**
+#### Requirements
 
 * Docker
 * OpenShift
 * Ansible 2.2.2+
 
-**Prepare:**
+####Prepare
+
 We first have to convert our private key to be a no-password-protected one. This is a workaround for https://issues.jboss.org/browse/AGDIGGER-229
 and you won't have to do that once that ticket is resolved.
 
@@ -55,7 +56,8 @@ Rename the new key file:
 mv ~/.ssh/id_rsa_no_pw ~/.ssh/id_rsa
 ```
 
-**Start OpenShift**
+#### Start OpenShift
+
 We use `oc cluster up` to start an OpenShift cluster for our kick start. Just download OpenShift CLI, `oc`, 
 from [this page](https://github.com/openshift/origin/releases) if you don't have it already.
 
@@ -68,7 +70,8 @@ oc cluster up
 
 You can now open <https://127.0.0.1:8443> in your browser to access OpenShift web console. Use "developer/developer" for username/password.
 
-**Install**
+#### Install
+
 Now we clone the installer repository which has an example inventory and a playbook configured to run with `oc cluster up`.
 
 ```
@@ -85,7 +88,7 @@ ansible-playbook -i cluster-up-example sample-build-playbook.yml -e skip_tls=tru
 
 You can now open <http://jenkins-digger.127.0.0.1.nip.io> in your browser to access Jenkins UI. Use "admin/password" for username/password.
 
-**Build**
+#### Build
 
 We are going to use a sample application hosted at <https://github.com/aliok/android25sampleapp> to test building an application.
 It is a very simple blank application that has a simplified `Jenkinsfile` for the sake of simplicity of the kick-start. 
@@ -116,7 +119,8 @@ wget --auth-no-challenge --http-user=admin --http-password=password
 http://jenkins-digger.127.0.0.1.nip.io/job/sample/1/artifact/app/build/outputs/apk/app-debug.apk 
 ```
 
-**Install built binary on Device**
+#### Install built binary on Device
+
 If you would like to install the binary on an emulator, create a new AVD first.
 In the demo video, we created a new AVD named "Nexus_5X_API_25" manually in Android Studio.
 
@@ -135,7 +139,8 @@ adb install app-debug.apk
 ```
 
 
-**Clean up**
+#### Clean up
+
 Let's revert the private key.
 
 Back up first:

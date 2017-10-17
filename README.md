@@ -141,9 +141,8 @@ adb install app-debug.apk
 
 #### Clean up
 
-Let's revert the private key.
+Let's revert the private key:
 
-Back up first:
 ```
 # delete the no-password private key
 rm ~/.ssh/id_rsa

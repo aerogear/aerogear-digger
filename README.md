@@ -35,7 +35,7 @@ Here are the instructions used in that video:
 * OpenShift
 * Ansible 2.2.2+
 
-####Prepare
+#### Prepare
 
 We first have to convert our private key to be a no-password-protected one. This is a workaround for https://issues.jboss.org/browse/AGDIGGER-229
 and you won't have to do that once that ticket is resolved.

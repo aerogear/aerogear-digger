@@ -36,5 +36,6 @@
   args:
     chdir: "{{ templates_folder }}/{{ item }}"
   with_items: "{{ template_list }}"
-  failed_when: no
+  ignore_errors: yes
+  changed_when: true
   when: template_should_commit

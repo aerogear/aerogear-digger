@@ -48,6 +48,7 @@
       args:
         chdir: "{{ templates_folder }}/{{ item }}"
       with_items: "{{ template_list }}"
+      ignore_errors: yes
   tags:
     - ios
     - native
@@ -94,6 +95,7 @@
       args:
         chdir: "{{ templates_folder }}/{{ item }}"
       with_items: "{{ template_list }}"
+      ignore_errors: yes
   tags:
     - cordova
     - hybrid

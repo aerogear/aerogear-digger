@@ -14,12 +14,12 @@ CODE_SIGN_PROFILE_ID = params?.BUILD_CREDENTIAL_ID?.trim()   // e.g. "redhat-dis
 
 // sample values commented below are for https://github.com/feedhenry-templates/helloworld-app
 /* ------------- use these to hardcode values in Jenkinsfile ---------------- */
-PROJECT_NAME = "Helloworld"
+PROJECT_NAME = "__PROJECT_NAME__"
 CLEAN = true                          // Do a clean build and sign
 INFO_PLIST = "${PROJECT_NAME}/${PROJECT_NAME}-Info.plist"
 VERSION = "1.0.0"
 SHORT_VERSION = "1.0"
-BUNDLE_ID = "org.feedhenry.dart.helloworld.cordova"
+BUNDLE_ID = "__BUNDLE_ID__"
 OUTPUT_FILE_NAME="${PROJECT_NAME}-${BUILD_CONFIG}.ipa".replace(" ", "").toLowerCase()
 SDK = "iphoneos"
 

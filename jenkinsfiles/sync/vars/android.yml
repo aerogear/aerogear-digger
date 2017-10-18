@@ -1,0 +1,13 @@
+---
+platform: android
+template_branch: master
+template_folder: ~/work/feedhenry-templates
+template_org: feedhenry-templates
+template_list:
+  - blank-android-gradle
+  - oauth-android-app
+  - saml-android-app
+  - welcome-android-gradle
+  - helloworld-android-gradle
+  - pushstarter-android-app
+  - sync-android-app

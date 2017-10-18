@@ -1,0 +1,101 @@
+---
+-
+  name: Sync android jenkinsfiles
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: digger-jenkins }
+    - { role: digger-templates }
+  vars_files:
+    - vars/digger.yml
+    - vars/android.yml
+  tags:
+    - android
+    - native
+
+-
+  name: Sync ios jenkinsfiles
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: digger-jenkins }
+    - { role: digger-templates }
+  vars_files:
+    - vars/digger.yml
+    - vars/ios.yml
+  post_tasks:
+    -
+      name: Get project name
+      shell: ls | grep xcodeproj | sed 's/.xcodeproj//g'
+      args:
+        chdir: "{{ templates_folder }}/{{ item }}"
+      register: projects
+      with_items: "{{ template_list }}"
+    -
+      name: Zips template folder list and template app name list 
+      set_fact:
+        templates_tuple: "{{ template_list | zip(projects.results) | list }}"
+    -
+      name: Replace app name
+      shell: "sed -i -s 's/PROJECT_NAME = \"__PROJECT_NAME__\"/PROJECT_NAME = \"{{ item[1].stdout }}\"/g' Jenkinsfile"
+      args:
+        chdir: "{{ templates_folder }}/{{ item[0] }}"
+      with_items:
+        - "{{ templates_tuple }}"
+    -
+      name: Commit template changes
+      shell: "git add Jenkinsfile && git commit -m 'Jenkinsfile change'"
+      args:
+        chdir: "{{ templates_folder }}/{{ item }}"
+      with_items: "{{ template_list }}"
+      ignore_errors: yes
+  tags:
+    - ios
+    - native
+
+-
+  name: Sync cordova jenkinsfiles
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: digger-jenkins }
+    - { role: digger-templates }
+  vars_files:
+    - vars/digger.yml
+    - vars/cordova.yml
+  post_tasks:
+    -
+      name: Get project bundle id
+      shell: cat config.xml | grep -oP '<widget id="\K[^"]*'
+      args:
+        chdir: "{{ templates_folder }}/{{ item }}"
+      register: projects_bundles
+      with_items: "{{ template_list }}"
+    -
+      name: Get project name
+      shell: cat config.xml | grep -m 1 -oP '<name>(.*)</name>' | sed -e 's,.*<name>\([^<]*\)</name>.*,\1,g'
+      args:
+        chdir: "{{ templates_folder }}/{{ item }}"
+      register: projects_names
+      with_items: "{{ template_list }}"
+    -
+      name: Set bundle and name tuple
+      set_fact:
+        project_tuple: "{{ projects_bundles.results | zip(projects_names.results) | list }}"
+    -
+      name: Apply changes to jenkinsfile
+      shell: "sed -i -s 's/PROJECT_NAME = \"__PROJECT_NAME__\"/PROJECT_NAME = \"{{ item[1].stdout }}\"/g' Jenkinsfile && sed -i -s 's/BUNDLE_ID = \"__BUNDLE_ID__\"/BUNDLE_ID = \"{{ item[0].stdout }}\"/g' Jenkinsfile"
+      args:
+        chdir: "{{ item[1].invocation.module_args.chdir }}"
+      with_items:
+        - "{{ project_tuple }}"
+    -
+      name: Commit template changes
+      shell: "git add Jenkinsfile && git commit -m 'Jenkinsfile change'"
+      args:
+        chdir: "{{ templates_folder }}/{{ item }}"
+      with_items: "{{ template_list }}"
+      ignore_errors: yes
+  tags:
+    - cordova
+    - hybrid

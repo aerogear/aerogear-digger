@@ -1,0 +1,41 @@
+---
+-
+  name: Checkout templates repo
+  git:
+    repo: "https://github.com/{{template_org}}/{{ item }}.git"
+    dest: "{{ template_folder }}/{{ item }}"
+    version: "{{ template_branch }}"
+    force: yes
+  with_items: "{{ template_list }}"
+
+-
+  name: Create template branch
+  shell: "git checkout -b {{ templates_branch }}"
+  args:
+    chdir: "{{ templates_folder }}/{{ item }}"
+  with_items: "{{ template_list }}"
+  register: t
+  failed_when: no
+
+-
+  name: Checkout template branch
+  shell: "git checkout {{ templates_branch }}"
+  args:
+    chdir: "{{ templates_folder }}/{{ item.item }}"
+  with_items: "{{ t.results }}"
+  when: item.rc != 0
+
+-
+  name: Copy platform jenkinsfiles
+  shell: "cp {{ digger_jenkins_folder }}/jenkinsfiles/{{ platform }}_jenkinsfile.groovy {{ templates_folder }}/{{ item }}/Jenkinsfile"
+  with_items: "{{ template_list }}"
+
+-
+  name: Commit template changes
+  shell: "git add Jenkinsfile && git commit -m 'Jenkinsfile change'"
+  args:
+    chdir: "{{ templates_folder }}/{{ item }}"
+  with_items: "{{ template_list }}"
+  ignore_errors: yes
+  changed_when: true
+  when: template_should_commit

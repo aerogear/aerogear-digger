@@ -1,0 +1,6 @@
+---
+# defaults file for digger-templates
+templates_folder: ~/work/feedhenry-templates
+templates_org: feedhenry-templates
+templates_branch: test_branch
+template_should_commit: yes

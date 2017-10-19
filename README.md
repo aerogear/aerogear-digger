@@ -24,6 +24,133 @@ https://github.com/aerogear/digger-node
 
 - Java library: https://github.com/aerogear/digger-java
 
+## Kick start
+
+Check out the video [here](https://youtu.be/DxPgJcD6KSY) to kick start AeroGear Digger!
+Here are the instructions used in that video:
+
+#### Requirements
+
+* Docker
+* OpenShift
+* Ansible 2.2.2+
+
+#### Prepare
+
+We first have to convert our private key to be a no-password-protected one. This is a workaround for https://issues.jboss.org/browse/AGDIGGER-229
+and you won't have to do that once that ticket is resolved.
+
+Back up first:
+```
+cp ~/.ssh/id_rsa ~/.ssh/id_rsa.bak
+```
+
+Now, do the conversion:   
+``` 
+openssl rsa -in ~/.ssh/id_rsa -out ~/.ssh/id_rsa_no_pw
+# enter the password of your private key
+```
+
+Rename the new key file:
+```
+mv ~/.ssh/id_rsa_no_pw ~/.ssh/id_rsa
+```
+
+#### Start OpenShift
+
+We use `oc cluster up` to start an OpenShift cluster for our kick start. Just download OpenShift CLI, `oc`, 
+from [this page](https://github.com/openshift/origin/releases) if you don't have it already.
+
+Using version 3.6.0 and up is recommended as `oc cluster up` command in those newer versions creates some predefined 
+persistent volumes. 
+
+```
+oc cluster up
+```
+
+You can now open <https://127.0.0.1:8443> in your browser to access OpenShift web console. Use "developer/developer" for username/password.
+
+#### Install
+
+Now we clone the installer repository which has an example inventory and a playbook configured to run with `oc cluster up`.
+
+```
+# clone the installer
+git clone https://github.com/aerogear/digger-installer.git
+
+# go into it
+cd digger-installer
+
+# run the installer playbook 
+# we skip the OSX part, for the sake of kick-starting
+ansible-playbook -i cluster-up-example sample-build-playbook.yml -e skip_tls=true -e jenkins_route_protocol=http --skip-tags "provision-osx"
+``` 
+
+You can now open <http://jenkins-digger.127.0.0.1.nip.io> in your browser to access Jenkins UI. Use "admin/password" for username/password.
+
+#### Build
+
+We are going to use a sample application hosted at <https://github.com/aliok/android25sampleapp> to test building an application.
+It is a very simple blank application that has a simplified `Jenkinsfile` for the sake of simplicity of the kick-start. 
+
+```
+# install Digger CLI
+npm install digkins -g
+
+# login to Digger with the CLI
+digkins login http://jenkins-digger.127.0.0.1.nip.io --user=admin --password=password
+
+# create a job, named "sample"
+digkins job create sample https://github.com/aliok/android25sampleapp.git master
+
+# trigger a build, get a build number
+digkins job build sample
+
+# watch the logs for the build
+# build number will be 1, as it is the first build
+digkins log sample 1
+
+# wait until the build is finished successfully.
+# get the artifact url. (artifact here is the Android binary, *.apk file) 
+digkins artifact sample 1
+
+# download the binary
+wget --auth-no-challenge --http-user=admin --http-password=password 
+http://jenkins-digger.127.0.0.1.nip.io/job/sample/1/artifact/app/build/outputs/apk/app-debug.apk 
+```
+
+#### Install built binary on Device
+
+If you would like to install the binary on an emulator, create a new AVD first.
+In the demo video, we created a new AVD named "Nexus_5X_API_25" manually in Android Studio.
+
+If you would like to install the binary on your device, just plug in your device.
+
+```
+# start the emulator, if you would like to install on an emulator
+# for some reason, one must cd into the emulator folder. otherwise it emulator won't start.
+cd $ANDROID_SDK_ROOT/emulator
+emulator -avd Nexus_5X_API_25
+```
+
+```
+# install on emulator or device
+adb install app-debug.apk
+```
+
+
+#### Clean up
+
+Let's revert the private key:
+
+```
+# delete the no-password private key
+rm ~/.ssh/id_rsa
+# copy back the original key 
+cp ~/.ssh/id_rsa.bak ~/.ssh/id_rsa 
+```
+
+
 ## Repo structure
 
 Please check individual folders for more information

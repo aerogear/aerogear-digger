@@ -26,7 +26,7 @@ https://github.com/aerogear/digger-node
 
 ## Kick start
 
-Check out the video [here](bla) to kick start AeroGear Digger!
+Check out the video [here](https://youtu.be/DxPgJcD6KSY) to kick start AeroGear Digger!
 Here are the instructions used in that video:
 
 #### Requirements

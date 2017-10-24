@@ -74,6 +74,8 @@ You can now open <https://127.0.0.1:8443> in your browser to access OpenShift we
 
 Now we clone the installer repository which has an example inventory and a playbook configured to run with `oc cluster up`.
 
+*Note:* If you use a password protected private key, you will need to set the `jenkins_private_key_password` variable in your playbook/inventory file or set it from the ansible-playbook CLI using the `-e` paramaeter (`-e jenkins_private_key_password=12345`).
+
 ```
 # clone the installer
 git clone https://github.com/aerogear/digger-installer.git

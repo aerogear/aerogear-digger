@@ -35,27 +35,6 @@ Here are the instructions used in that video:
 * OpenShift
 * Ansible 2.2.2+
 
-#### Prepare
-
-We first have to convert our private key to be a no-password-protected one. This is a workaround for https://issues.jboss.org/browse/AGDIGGER-229
-and you won't have to do that once that ticket is resolved.
-
-Back up first:
-```
-cp ~/.ssh/id_rsa ~/.ssh/id_rsa.bak
-```
-
-Now, do the conversion:   
-``` 
-openssl rsa -in ~/.ssh/id_rsa -out ~/.ssh/id_rsa_no_pw
-# enter the password of your private key
-```
-
-Rename the new key file:
-```
-mv ~/.ssh/id_rsa_no_pw ~/.ssh/id_rsa
-```
-
 #### Start OpenShift
 
 We use `oc cluster up` to start an OpenShift cluster for our kick start. Just download OpenShift CLI, `oc`, 
@@ -74,7 +53,12 @@ You can now open <https://127.0.0.1:8443> in your browser to access OpenShift we
 
 Now we clone the installer repository which has an example inventory and a playbook configured to run with `oc cluster up`.
 
-*Note:* If you use a password protected private key, you will need to set the `jenkins_private_key_password` variable in your playbook/inventory file or set it from the ansible-playbook CLI using the `-e` paramaeter (`-e jenkins_private_key_password=12345`).
+We can then execute the playbook. Please note that during the execution of the playbook, some calls are made to the Jenkins instance that is to be created.
+Those calls need authentication and the authentication method that is suitable in our case is "public key infrastructure". This means, you will be prompted
+during the execution of the playbook to install your public key to Jenkins.
+Jenkins CLI uses `~/.ssh/identity` or `~/.ssh/id_rsa` if the first one doesn't exist.
+
+Currently, it is not possible to make the installer to use another keypair. This will be possible with <https://issues.jboss.org/browse/AGDIGGER-230>.
 
 ```
 # clone the installer
@@ -85,7 +69,7 @@ cd digger-installer
 
 # run the installer playbook 
 # we skip the OSX part, for the sake of kick-starting
-ansible-playbook -i cluster-up-example sample-build-playbook.yml -e skip_tls=true -e jenkins_route_protocol=http --skip-tags "provision-osx"
+ansible-playbook -i cluster-up-example sample-build-playbook.yml -e skip_tls=true -e jenkins_route_protocol=http --skip-tags "provision-osx -e jenkins_private_key_password=<PRIVATE_KEY_PASSWORD>"
 ``` 
 
 You can now open <http://jenkins-digger.127.0.0.1.nip.io> in your browser to access Jenkins UI. Use "admin/password" for username/password.
@@ -139,19 +123,6 @@ emulator -avd Nexus_5X_API_25
 # install on emulator or device
 adb install app-debug.apk
 ```
-
-
-#### Clean up
-
-Let's revert the private key:
-
-```
-# delete the no-password private key
-rm ~/.ssh/id_rsa
-# copy back the original key 
-cp ~/.ssh/id_rsa.bak ~/.ssh/id_rsa 
-```
-
 
 ## Repo structure
 

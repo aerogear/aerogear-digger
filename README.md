@@ -1,5 +1,5 @@
-# digger-jenkins
-Digger on Jenkins: An OpenSource Build Farm for mobile app builds in the cloud
+# AeroGear Digger
+An OpenSource Build Farm for building mobile app builds in the cloud
 
 Give us mobile app source code and we would build it for you!
 

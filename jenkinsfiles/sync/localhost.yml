@@ -4,7 +4,7 @@
   hosts: localhost
   connection: local
   roles:
-    - { role: digger-jenkins }
+    - { role: aerogear-digger }
     - { role: digger-templates }
   vars_files:
     - vars/digger.yml
@@ -18,7 +18,7 @@
   hosts: localhost
   connection: local
   roles:
-    - { role: digger-jenkins }
+    - { role: aerogear-digger }
     - { role: digger-templates }
   vars_files:
     - vars/digger.yml
@@ -58,7 +58,7 @@
   hosts: localhost
   connection: local
   roles:
-    - { role: digger-jenkins }
+    - { role: aerogear-digger }
     - { role: digger-templates }
   vars_files:
     - vars/digger.yml

@@ -1,0 +1,12 @@
+---
+-
+  name: Create AeroGear Digger repo folder directory
+  file:
+    path: "{{ aerogear_digger_folder }}"
+    state: directory
+-
+  name: Checkout AeroGear branch
+  git:
+    repo: "{{ aerogear_digger_repo }}"
+    dest: "{{ aerogear_digger_folder }}"
+    version: "{{ aerogear_digger_head }}"

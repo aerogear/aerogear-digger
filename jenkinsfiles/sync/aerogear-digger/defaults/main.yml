@@ -1,4 +1,5 @@
 ---
+# defaults file for aerogear-digger
 aerogear_digger_repo: https://github.com/aerogear/aerogear-digger.git
 aerogear_digger_folder: ~/work/aerogear/aerogear-digger-temp
-aerogear_digger_head: sync-jenkinsfiles
+aerogear_digger_head: master

@@ -247,6 +247,6 @@ the default node labels will be `android` and `ios`.
 6. Use Jenkins [Android Signing Plugin](https://wiki.jenkins.io/display/JENKINS/Android+Signing+Plugin) to sign
    the binary. Parameters passed to that plugin can be seen [here](https://wiki.jenkins.io/display/JENKINS/Android+Signing+Plugin).
 7. Archive the built and signed binary so that it is easily accessible in Jenkins. You can use 
-   [Digger Java Client](https://github.com/aerogear/digger-java) or [Digger Node Client](https://github.com/aerogear/digger-node)
+   [Digger Java Client](https://github.com/aerogear/aerogear-digger-java-client) or [Digger Node Client](https://github.com/aerogear/aerogear-digger-node-client)
    to access and download archived artifacts.
     

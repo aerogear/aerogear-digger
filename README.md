@@ -22,7 +22,7 @@ Use one of the clients bellow to interact with the digger jenkins api.
 - Node.js command line client and library:
 https://github.com/aerogear/digger-node
 
-- Java library: https://github.com/aerogear/digger-java
+- Java client: https://github.com/aerogear/aerogear-digger-java-client
 
 ## Kick start
 

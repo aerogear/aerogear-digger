@@ -81,24 +81,24 @@ It is a very simple blank application that has a simplified `Jenkinsfile` for th
 
 ```
 # install Digger CLI
-npm install digkins -g
+npm install aerogear-digger-node-client -g
 
 # login to Digger with the CLI
-digkins login http://jenkins-digger.127.0.0.1.nip.io --user=admin --password=password
+digger login http://jenkins-digger.127.0.0.1.nip.io --user=admin --password=password
 
 # create a job, named "sample"
-digkins job create sample https://github.com/aliok/android25sampleapp.git master
+digger job create sample https://github.com/aliok/android25sampleapp.git master
 
 # trigger a build, get a build number
-digkins job build sample
+digger job build sample
 
 # watch the logs for the build
 # build number will be 1, as it is the first build
-digkins log sample 1
+digger log sample 1
 
 # wait until the build is finished successfully.
 # get the artifact url. (artifact here is the Android binary, *.apk file) 
-digkins artifact sample 1
+digger artifact sample 1
 
 # download the binary
 wget --auth-no-challenge --http-user=admin --http-password=password 

@@ -62,10 +62,10 @@ Currently, it is not possible to make the installer to use another keypair. This
 
 ```
 # clone the installer
-git clone https://github.com/aerogear/digger-installer.git
+git clone https://github.com/aerogear/aerogear-digger-installer.git
 
 # go into it
-cd digger-installer
+cd aerogear-digger-installer
 
 # run the installer playbook 
 # we skip the OSX part, for the sake of kick-starting
@@ -145,7 +145,7 @@ Contains Jenkins groovy scripts used to perform administration tasks on jenkins
 
 ## Installation
 
-AeroGear Digger can be installed using Ansible Scripts available in the github repo [digger-installer](https://github.com/aerogear/digger-installer)
+AeroGear Digger can be installed using Ansible Scripts available in the github repo [aerogear-digger-installer](https://github.com/aerogear/aerogear-digger-installer)
 
 
 ## Using AeroGear Digger
@@ -181,7 +181,7 @@ and you have to use `node` statements to use the correct nodes.
 The build above will be executed in an agent that is prepared to build Android applications.
 
 The node given should match the *node label* configuration in Jenkins. If you are using 
-[digger-installer](https://github.com/aerogear/digger-installer) Ansible role to deploy AeroGear Digger,
+[aerogear-digger-installer](https://github.com/aerogear/aerogear-digger-installer) Ansible role to deploy AeroGear Digger,
 the default node labels will be `android` and `ios`.
 
 ### Anatomy of a Jenkinsfile

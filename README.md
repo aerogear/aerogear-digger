@@ -55,10 +55,11 @@ Now we clone the installer repository which has an example inventory and a playb
 
 We can then execute the playbook. Please note that during the execution of the playbook, some calls are made to the Jenkins instance that is to be created.
 Those calls need authentication and the authentication method that is suitable in our case is "public key infrastructure". This means, you will be prompted
-during the execution of the playbook to install your public key to Jenkins.
-Jenkins CLI uses `~/.ssh/identity` or `~/.ssh/id_rsa` if the first one doesn't exist.
+during the execution of the playbook to install your public key to Jenkins, this defaults to the public key at `~/.ssh/id_rsa.pub`. 
 
-Currently, it is not possible to make the installer to use another keypair. This will be possible with <https://issues.jboss.org/browse/AGDIGGER-230>.
+Jenkins CLI uses `~/.ssh/id_rsa` as its default private key to make CLI calls.
+
+It is possible to make the installer to use another keypair by passing ```'-e jenkins_public_key_path'``` to override the public key and ```'jenkins_private_key_path'``` to override the private key.
 
 ```
 # clone the installer

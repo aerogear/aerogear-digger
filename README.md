@@ -20,7 +20,7 @@ You can also login directly to jenkins ui and customize it for your own needs.
 Use one of the clients bellow to interact with the digger jenkins api.
 
 - Node.js command line client and library:
-https://github.com/aerogear/digger-node
+https://github.com/aerogear/aerogear-digger-node-client
 
 - Java client: https://github.com/aerogear/aerogear-digger-java-client
 

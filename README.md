@@ -1,13 +1,13 @@
 # AeroGear Digger
-An OpenSource Build Farm for building mobile app builds in the cloud
+An OpenSource Build Farm for building mobile app builds in the cloud using Jenkins and OpenShift
 
-Give us mobile app source code and we would build it for you!
-
-![](http://i.imgur.com/XmDnbeo.jpg)
-
-## Purpose of the project
-
-Provide complete mobile build solution on top of Jenkins and OpenShift platforms.
+|                 | Project Info  |
+| --------------- | ------------- |
+| License:        | Apache License, Version 2.0  |
+| Documentation:  | https://aerogear.org/getstarted/guides/#digger |
+| Issue tracker:  | https://issues.jboss.org/browse/AGDIGGER  |
+| Mailing lists:  | [aerogear-users](http://aerogear-users.1116366.n5.nabble.com/) ([subscribe](https://lists.jboss.org/mailman/listinfo/aerogear-users))  |
+|                 | [aerogear-dev](http://aerogear-dev.1069024.n5.nabble.com/) ([subscribe](https://lists.jboss.org/mailman/listinfo/aerogear-dev)) 
 
 ## How to use it
 
